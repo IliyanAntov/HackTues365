@@ -1,3 +1,5 @@
+const gen = require('./generator.js').randomize();
+
 const serialPort = require("serialport");
 const express = require('express');
 const fs = require('fs');
@@ -7,6 +9,8 @@ const app = express();
 const port = 3000;
 
 let usb;
+
+// let gen = exports.ButtonGameRandomizer();
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -26,12 +30,15 @@ app.get('/', (req, res) => {
 
 app.get('/start', (req, res) => {
 	res.send('Game starting..');
+	res.send(`If red light lights release when ${}`)
 	arduinoPort.write('hello from node\n', err => {
 	    if (err) {
 			return console.log('Error on write: ', err.message);
 	    }
 	    console.log('message written');
 	});
+
+	print();
 });
 
 app.listen(port, () => {
