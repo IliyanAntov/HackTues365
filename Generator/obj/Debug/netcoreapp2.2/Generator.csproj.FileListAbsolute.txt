@@ -1,0 +1,8 @@
+C:\Users\Toni\source\repos\Generator\Generator\bin\Debug\netcoreapp2.2\Generator.deps.json
+C:\Users\Toni\source\repos\Generator\Generator\bin\Debug\netcoreapp2.2\Generator.runtimeconfig.json
+C:\Users\Toni\source\repos\Generator\Generator\bin\Debug\netcoreapp2.2\Generator.runtimeconfig.dev.json
+C:\Users\Toni\source\repos\Generator\Generator\bin\Debug\netcoreapp2.2\Generator.dll
+C:\Users\Toni\source\repos\Generator\Generator\obj\Debug\netcoreapp2.2\Generator.csprojAssemblyReference.cache
+C:\Users\Toni\source\repos\Generator\Generator\obj\Debug\netcoreapp2.2\Generator.csproj.CoreCompileInputs.cache
+C:\Users\Toni\source\repos\Generator\Generator\obj\Debug\netcoreapp2.2\Generator.AssemblyInfoInputs.cache
+C:\Users\Toni\source\repos\Generator\Generator\obj\Debug\netcoreapp2.2\Generator.AssemblyInfo.cs
