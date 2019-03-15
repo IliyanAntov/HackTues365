@@ -17,4 +17,4 @@ function randomizeButtonGame() { 										// generate random values to pass to 
 	return ret;
 }
 
-module.exports.randomize = randomize;
+module.exports.randomizeButtonGame = randomizeButtonGame;
