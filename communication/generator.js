@@ -18,3 +18,4 @@ function randomizeButtonGame() { 										// generate random values to pass to 
 }
 
 module.exports.randomizeButtonGame = randomizeButtonGame;
+
