@@ -1,16 +1,17 @@
 int timeToPress = 3;
-int colors[4] = {1,2,3,4};
-int buttonPin = 2;
-int common_anode = 10;
-int red_cathode = 11;
-int green_cathode = 12;
-int blue_cathode = 13;
-
-
+char colors[4] = {'R','G','B','Y'};
+int buttonPin = 3;
+int common_cathode = 10;
+int red_anode = 11;
+int green_anode = 12;
+int blue_anode = 13;
 
 int fakeTimer = 3;
 
+int buttonState = 1;
+
 void setup() {
+  randomSeed(analogRead(0));
   pinMode(buttonPin,INPUT);
   for(int i = 10;i<14;i++){
     pinMode(i,OUTPUT);
@@ -23,23 +24,63 @@ void loop() {
 }
 
 void buttonGame(){
-  if(digitalRead(buttonPin)){
+  if(!digitalRead(buttonPin) && buttonState == 1){
+    buttonState = -1;
     if(fakeTimer == timeToPress){
       //right moment
-      Serial.println("Nz");
-      lightRGB();
-      int color = colors[random(4)];
-      int fakeTimer2 = color; //for testing
-      Serial.println(color);
-      if(!digitalRead(buttonPin)){
-        if(color == fakeTimer2){
-          Serial.println("Game success");
-        }else{
-          Serial.println("Strike 2");
+      int index = random(4);
+      char color = colors[index];
+      while(buttonState == -1){
+        lightRGB(color);
+        //Serial.println(color);
+        if(digitalRead(buttonPin)){
+          buttonState = 1;
+          turnOffRGB();
+          if(fakeTimer == timeToPress){
+            Serial.println("Game success");
+          }else{
+            Serial.println("Strike 2");
+          }
         }
       }
     }else{
-      Serial.println("strike");
+      turnOffRGB();
     }
   }
+}
+
+void lightRGB(char color){
+  switch(color){
+    case 'R':
+      digitalWrite(red_anode,HIGH);
+      digitalWrite(green_anode,LOW);
+      digitalWrite(blue_anode,LOW);
+      digitalWrite(common_cathode,LOW);
+      break;
+    case 'G':
+      digitalWrite(red_anode,LOW);
+      digitalWrite(green_anode,HIGH);
+      digitalWrite(blue_anode,LOW);
+      digitalWrite(common_cathode,LOW);
+      break;
+    case 'B':
+      digitalWrite(red_anode,LOW);
+      digitalWrite(green_anode,LOW);
+      digitalWrite(blue_anode,HIGH);
+      digitalWrite(common_cathode,LOW);
+      break;
+    case 'Y':
+      digitalWrite(red_anode,HIGH);
+      digitalWrite(green_anode,HIGH);
+      digitalWrite(blue_anode,LOW);
+      digitalWrite(common_cathode,LOW);
+      break;
+  }
+}
+
+void turnOffRGB(){
+  digitalWrite(red_anode,LOW);
+  digitalWrite(green_anode,LOW);
+  digitalWrite(blue_anode,LOW);
+  digitalWrite(common_cathode,HIGH);
 }
