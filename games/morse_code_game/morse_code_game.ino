@@ -1,3 +1,4 @@
+
 //dot - 0
 //dash - 1
 
@@ -41,11 +42,15 @@ int num_to_display = 5;
 
 int potentiometer = 14;
 int led = 7;
+int buttonPin = 15;
 
 int dot_delay = 300;
 int dash_delay = 700;
 int pause_btw_letters = 1500;
 int pause_btw_reset = 3000;
+
+int game_over = 0;
+int won = 0; 
 
 char Numbers[16][8] = {
               "abcdef",
@@ -75,8 +80,12 @@ int ePin = 6;
 int fPin = 8;
 int gPin = 9;
 
+int momentForLightUp;
+int moment2;
+
 void setup() {
   pinMode(potentiometer,INPUT);
+  pinMode(buttonPin,INPUT);
   pinMode(aPin,OUTPUT);
   pinMode(bPin,OUTPUT);
   digitalWrite(aPin,HIGH);
@@ -95,8 +104,10 @@ void setup() {
 }
 
 void loop() {
-  //show_morse();
-  read_input();
+  if(!game_over){
+    read_input();
+    //show_morse();
+  }
 }
 
 void show_morse(){
@@ -105,6 +116,7 @@ void show_morse(){
     int letter_index = input_word[i] - 'A';
     //size_t symbol_size = sizeof(morse_code_mapping[i])/sizeof(char); //CHECK IF THE SIZE CALCULATION IS RIGHT
     Serial.println(strlen(morse_code_mapping[letter_index]));
+    
     for(int j = 0;j<strlen(morse_code_mapping[letter_index]);j++){
       if(morse_code_mapping[letter_index][j] == '0'){
         //dot
@@ -123,10 +135,16 @@ void show_morse(){
 //morse_symbol(dash_delay) - dash
 
 void morse_symbol(int delay_time){
-  digitalWrite(led,HIGH);
-  delay(delay_time);
-  digitalWrite(led,LOW);
-  delay(200);
+  int currMoment = millis();
+  while(millis() - currMoment<delay_time){
+    digitalWrite(led,HIGH);
+  }
+  //delay(delay_time);
+  currMoment = millis();
+  while(millis() - currMoment<200){
+    digitalWrite(led,LOW);
+  }
+  //delay(200);
 }
 
 void read_input(){
@@ -135,8 +153,18 @@ void read_input(){
   t = map(t,0,1020,0,15);
   Serial.println(t);
   write_digit(Numbers[t]);
-  light_digit();  
+  light_digit();
   
+  if(!digitalRead(buttonPin)){
+    game_over = 1;
+    if(t == num_to_display){
+        //Success
+        Serial.println("brao ludko");
+    }else{
+      //You failed
+      Serial.println("failure");
+    }
+  }
 }
 
 void write_digit(char num[8]) {
