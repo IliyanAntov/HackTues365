@@ -16,7 +16,7 @@ app.get('/start', (req, res) => {
 	res.send('Game starting..');
 });
 
-let arduinoPort = new serialPort('/dev/ttyACM1', {
+let arduinoPort = new serialPort('/dev/ttyACM0', {
     baudRate: 9600
 });
 
