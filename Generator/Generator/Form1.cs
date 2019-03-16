@@ -18,22 +18,20 @@ namespace Generator {
         char[] colors = new char[] { 'r', 'g', 'b', 'y' };
 
         public Form1() {
-            InitializeComponent();
-            port = new SerialPort("COM3", 9600);
-            port.Open();
+            InitializeComponent();  // begin the Forms App
+            port = new SerialPort("COM3", 9600);  // define a serial connection on COM3 @ 9600 baud rate
+            port.Open();  // open the serial connection
 
-            button1.Text = "Generate";
+            button1.Text = "Generate";  // Initialize the text for the button and label
             label1.Text = "";
         }
 
-        private void button1_Click(object sender, EventArgs e) {
-            List<char> rows = new List<char>();
+        private void button1_Click(object sender, EventArgs e) {  // button click event listener
+            List<char> rows = new List<char>();  // collection of all rows for the arduino
 
-            //port.Write("1");
+            ButtonGameValues = new RandomizeButtonGame();  // create a new set of random values
 
-            ButtonGameValues = new RandomizeButtonGame();
-
-            rows.AddRange(FormatData(ButtonGameValues));
+            rows.AddRange(FormatData(ButtonGameValues));  // pick the ones needed for the arduino
 
             for (int i = 0; i < rows.Count; i++) {
                 port.Write(rows[i].ToString());
@@ -43,32 +41,32 @@ namespace Generator {
                 }
             }     
 
-            label1.Text = ButtonGameRows(ButtonGameValues) + rows[0] + rows[1];
+            label1.Text = ButtonGameRows(ButtonGameValues) + rows[0] + " " + rows[1];
         }
 
         private void label1_Click(object sender, EventArgs e) {
 
         }
 
-        private List<char> FormatData(RandomizeButtonGame bg) { // format data for Arduino
+        private List<char> FormatData(RandomizeButtonGame bg) {  // format data for Arduino
             List<char> rows = new List<char>();
 
-            rows.Add(colors[bg.Index]); // pick the chosen color
-            rows.Add((char) (bg.TimeValues[bg.Index] + '0')); // pick the chosen digit
+            rows.Add(colors[bg.Index]);  // pick the chosen color
+            rows.Add((char) (bg.TimeValues[bg.Index] + '0'));  // pick the chosen digit
 
             return rows;
         }
 
-        private string ButtonGameRows(RandomizeButtonGame bg) {
+        private string ButtonGameRows(RandomizeButtonGame bg) {  // format button game instructions
             StringBuilder sb = new StringBuilder();
-            string ButtonGameHeading = "Button Game \n\n";
+            string ButtonGameHeading = "Button Game \n\n";  // Beggining line
             sb.Append(ButtonGameHeading);
 
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < colors.Length; i++) {  // creating a semi-table for all colors and their corresponing time-values
                 sb.Append(colors[i] + " -> " + bg.TimeValues[i] + '\n');
             }
       
-            return sb.ToString();
+            return sb.ToString();  
         }
     }
 }
