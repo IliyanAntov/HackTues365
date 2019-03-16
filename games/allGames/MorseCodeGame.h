@@ -1,4 +1,4 @@
-
+#include "sevenSegment.h"
 #include "Delay.h"
 
 char m_mapping[26][5] = {
@@ -136,7 +136,7 @@ void setupMorseCode() {
 
 }
 
-int tick() {
+int tickMorseCode() {
     show_morse();
     return read_input();
 }

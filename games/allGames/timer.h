@@ -9,8 +9,8 @@ int t_OA1 = 9;
 int t_OA2 = 10;
 int t_OA3 = 11;
 
-int t_seconds = 24;
-int t_minutes = 1;
+int t_seconds = 60;
+int t_minutes = 3;
 int t_digits[3];
 unsigned long t_time = millis();
 
@@ -49,7 +49,6 @@ void light_t_digits(int num){
 }
 
 int tickTimer(){
-
     if(t_minutes == 0 && t_seconds == 0){
         return -1;
     }
@@ -77,7 +76,12 @@ int tickTimer(){
         }
     }
 
-    return 0;
+    return 1;
+}
+
+int* getTime(){
+    int time[] = {t_minutes,t_seconds};
+    return time;
 }
 
 #endif

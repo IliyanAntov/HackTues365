@@ -43,6 +43,10 @@ void lightRGB(char color) {
   }
 }
 
+int digitInTimer(int wantedDigit){ 
+    return(getTimer()[1]%10 == wantedDigit || getTimer()[1]/10 == wantedDigit || getTimer()[0] == wantedDigit);
+}
+
 int tickButtonGame() {
     if (!digitalRead(b_buttonPin) && b_buttonState == 1) {
         b_buttonState = -1;
@@ -73,7 +77,7 @@ void setupButtonGame(char color, char digitStart, char digitEnd){
     b_rgbColor = color;
     b_wantedDigitStart = digitStart;
     b_wantedDigitEnd = digitEnd;
-    
+
     pinMode(b_buttonPin,INPUT);
     for (int i = 21; i < 26; i++) {
         pinMode(i,OUTPUT);
@@ -81,6 +85,3 @@ void setupButtonGame(char color, char digitStart, char digitEnd){
     turnOffRGB();
 }
 
-int digitInTimer(int wantedDigit){ 
-    return(t_seconds%10 == wantedDigit || t_seconds/10 == wantedDigit || t_minutes == wantedDigit);
-}

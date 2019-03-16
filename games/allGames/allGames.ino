@@ -4,15 +4,16 @@
 
 void setup() {
    setupMorseCode();
-   setupButtonGame();
+   setupButtonGame('R',5,5); //just for now
    setupTimer();
 
    Serial.begin(9600);
 }
 
 void loop() {
-    Serial.println(t_seconds%10);
-    if(!tickTimer()){
+    Serial.println(getTime()[0]);
+    Serial.println(getTime()[1]);
+    if(tickTimer()){
         tickMorseCode();
         tickButtonGame();
     }else{
