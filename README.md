@@ -4,14 +4,14 @@ Defuse the bomb.
 ## Game Rules And Tutorial
 
 Work with a partner to defuse the bomb.
-On of the two players should only look at the instructions while the other is defusing the bomb.
+One of the two players should only look at the instructions while the other one is defusing the bomb.
 Adhere to the time limit otherwise the bomb explodes.
 
 Have fun!
 
 ## How do I play?
-v
-Connect your **Arduino** board the PC and the start the Generator app.
+
+Connect your **Arduino** board the PC and then start the Generator app.
 Click **Generate** and wait for the instructions to upload.
 You can then disconnect the board and start playing the game.
 
@@ -23,6 +23,6 @@ Both processes are connected via a serial connection based on the **System.IO.Po
 
 ## Dependecies
 
-The schematic is basen on an open source Arduino MEga 2560 design by [Yoyodyne Monkey Works, Inc.](https://github.com/YoyodyneMonkeyWorks)
+The schematic is based on an open source Arduino Mega 2560 design by [Yoyodyne Monkey Works, Inc.](https://github.com/YoyodyneMonkeyWorks)
 
 Repository [link](https://github.com/YoyodyneMonkeyWorks/KiCad/tree/master/Arduino_MEGA_2560-Rev3)
