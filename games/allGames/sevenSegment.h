@@ -1,7 +1,7 @@
 #ifndef SEVENSEGMENT_H__
 #define SEVENSEGMENT_H__
 
-char segment_numbers[10][8] = {
+char segment_numbers[][8] = {
             "abcdef",
             "bc",
             "abged",
