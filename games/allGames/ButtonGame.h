@@ -1,4 +1,5 @@
 #include "timer.h"
+#include "Button.h"
 
 int b_buttonPin = 22;
 int b_common_cathode = 23;
@@ -48,9 +49,10 @@ int digitInTimer(int wantedDigit){
 }
 
 int tickButtonGame() {
+    Serial.println()
     if (!digitalRead(b_buttonPin) && b_buttonState == 1) {
         b_buttonState = -1;
-        if (digitInTimer(b_wantedDigitStart) && b_buttonState == -1) {
+        if (digitInTimer(b_wantedDigitStart)) {
             //right moment
             lightRGB(b_rgbColor);
             if (digitalRead(b_buttonPin)) {

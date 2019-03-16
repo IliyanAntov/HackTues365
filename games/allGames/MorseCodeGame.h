@@ -33,17 +33,20 @@ char m_mapping[26][5] = {
 int m_random_words[3] = {4, 7, 8};
 int m_num_to_display = 5;
 
-int m_potentiometer = 14;
-int m_led = 7;
-int buttonPin = 15;
+int m_potentiometer = 12;
+int m_led = 13;
+int buttonPin = 14;
+
+int m_OA1 = 15;
+int m_indicator_pins[] = {16, 17, 18, 19, 20, 21, 22};
+
+
 
 int m_dot_delay = 300;
 int m_dash_delay = 700;
 int m_pause_btw_letters = 1500;
 int m_pause_btw_reset = 3000;
 
-int m_OA1 = 13;
-int m_indicator_pins[] = {14, 15, 16, 17, 18, 19, 20};
 
 int m_currentLetter = 0;
 int m_currentChar = 0;

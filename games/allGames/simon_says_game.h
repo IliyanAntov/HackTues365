@@ -3,28 +3,6 @@ int buttonPins[4] = {6, 7, 8, 9};
 int seed[4] = {0, 1, 2, 3};
 int index = 0;
 
-class Button {
-    int pin_;
-    int pastState_;
-    int current_;
-public:
-    void setPin(int pin) {
-        pin_ = pin;
-        pastState_ = digitalRead(pin_);
-        current_ = digitalRead(pin_);
-    }
-
-    bool isClicked() {
-        delay(40);
-        pastState_ = current_;
-        current_ = digitalRead(pin_);
-        if (pastState_ == HIGH) {
-            return !current_;
-        }
-        return false;
-    }
-};
-
 Button buttons[4];
 
 void setupSimonSays() {
