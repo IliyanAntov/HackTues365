@@ -30,8 +30,8 @@ char m_mapping[26][5] = {
   "1100" //Z -> --..
 };
 
-int m_random_words[3] = {4, 7, 8};
-int m_num_to_display = 5;
+int *m_random_words;
+int m_num_to_display;
 
 int m_potentiometer = 12;
 int m_led = 13;
@@ -39,8 +39,6 @@ int buttonPin = 14;
 
 int m_OA1 = 15;
 int m_indicator_pins[] = {16, 17, 18, 19, 20, 21, 22};
-
-
 
 int m_dot_delay = 300;
 int m_dash_delay = 700;
@@ -100,11 +98,11 @@ void light_digit() {
     digitalWrite(m_OA1, HIGH);
     delay(3);
     for(int i = 2; i < 10; i++){
-      if(i != 3 && i != 7){
-       digitalWrite(i, HIGH);
-      }
-   }
-   digitalWrite(A2,HIGH);
+        if(i != 3 && i != 7){
+            digitalWrite(i, HIGH);
+        }
+    }
+    digitalWrite(A2, HIGH);
 }
 
 int read_input() {
@@ -124,7 +122,7 @@ int read_input() {
     return 0;
 }
 
-void setupMorseCode() {
+void setupMorseCode(int target, int* word) {
     pinMode(m_potentiometer, INPUT);
     pinMode(buttonPin, INPUT);
 
@@ -137,6 +135,8 @@ void setupMorseCode() {
     digitalWrite(m_OA1, LOW);
     digitalWrite(m_led, LOW);
 
+    m_num_to_display = target;
+    m_random_words = word;
 }
 
 int tickMorseCode() {

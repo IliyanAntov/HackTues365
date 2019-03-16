@@ -1,11 +1,12 @@
 int lights[4] = {28, 29, 30, 31};
 int buttonPins[4] = {32, 33, 34, 35};
-int seed[4] = {0, 1, 2, 3};
+int *seed;
 int index = 0;
 
-Button buttons[4];
+Button *buttons;
+Delay lightOn;
 
-void setupSimonSays() {
+void setupSimonSays(int *btns, int* lights) {
     for (int i = 0; i < 4; i++) {
         pinMode(lights[i], OUTPUT);
         digitalWrite(lights[i], LOW);
@@ -15,15 +16,20 @@ void setupSimonSays() {
         buttons[i].setPin(buttonPins[i]);
     }
 
-    Serial.begin(9600);
     lightPattern();
+
+    buttons = btns;
+    seed = lights;
+
+    lightOn.set_milliseconds(100);
 }
 
 int currentButton = 0;
-int tickSimonSays() {
+bool lightOn = false;
+int tickSimonSaysGame() {
      //TODO: put less resistance
     if (currentButton == 0 && index == 0) {
-        lightPattern();
+        lightOn = true;
     }
     for (int i = 0; i < 4; i++) {
         if (buttons[i].isClicked()) {
@@ -38,19 +44,27 @@ int tickSimonSays() {
             if (currentButton > index) {
                 index++;
                 currentButton = 0;
-                lightPattern();
+                lightOn = true;
             }
         }
     }
+
+    if (lightOn) {
+        lightPattern();
+    }
+
     return 0;
 }
 
+int currentLed = 0;
 void lightPattern() {
-    for (int i = 0; i < index+1; i++) {
+    if (currentLed < index+1) {
         digitalWrite(lights[seed[i]], HIGH);
         delay(100);
         digitalWrite(lights[seed[i]], LOW);
         delay(100);
+    } else {
+        lightOff = false;
     }
 }
 

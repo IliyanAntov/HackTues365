@@ -10,7 +10,6 @@ int b_blue_anode = 27;
 int b_buttonState = 1;
 
 char b_rgbColor;
-int b_wantedDigitStart;
 int b_wantedDigitEnd;
 
 void turnOnRGB(int R, int G, int B){
@@ -57,16 +56,13 @@ int digitInTimer(int wantedDigit) {
 int tickButtonGame() {
     if (!digitalRead(b_buttonPin)) {
         b_buttonState = -1;
-        if (digitInTimer(b_wantedDigitStart)) {
-            //right moment
-            lightRGB(b_rgbColor);
-        }
+        lightRGB(b_rgbColor);
     } else {
         turnOffRGB();
-        if(b_buttonState == -1){
+        if (b_buttonState == -1) {
             b_buttonState = 1;
-            if(digitInTimer(b_wantedDigitEnd)){
-              return 1;
+            if (digitInTimer(b_wantedDigitEnd)) {
+                return 1;
             }
             return -1;
         }
@@ -74,9 +70,8 @@ int tickButtonGame() {
     return 0;
 }
 
-void setupButtonGame(char color, char digitStart, char digitEnd){
+void setupButtonGame(char color, char digitEnd) {
     b_rgbColor = color;
-    b_wantedDigitStart = digitStart;
     b_wantedDigitEnd = digitEnd;
 
     pinMode(b_buttonPin, INPUT);

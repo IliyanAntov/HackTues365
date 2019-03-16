@@ -7,16 +7,23 @@ void setup() {
    setupTimer();
    while (!loadInputs()) {}
 
-
-   setupMorseCode();
-   setupButtonGame('R', 5, 5);
+   setupButtonGame(RGBColor, wantedDigit);
+   setupMorseCode(wordIndex, morseCodeWord);
+   setupSimonSaysGame(buttonOrder, sequence);
 }
 
 void loop() {
     if (tickTimer()) {
-        tickMorseCode();
-        tickButtonGame();
+        if (tickMorseCode() < 0) {
+            //wrong
+        }
+        if (tickButtonGame() < 0) {
+
+        }
+        if (tickSimonSaysGame() < 0) {
+            //wrong
+        }
     } else {
-        Serial.println("nz i az");
+        
     }
 }
