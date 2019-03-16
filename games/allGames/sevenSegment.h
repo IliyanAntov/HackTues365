@@ -2,16 +2,22 @@
 #define SEVENSEGMENT_H__
 
 char segment_numbers[10][8] = {
-              "abcdef",
-              "bc",
-              "abged",
-              "abcgd",
-              "bcgf",
-              "afgcd",
-              "afedcg",
-              "abc",
-              "abcdefg",
-              "gfabcd"
+            "abcdef",
+            "bc",
+            "abged",
+            "abcgd",
+            "bcgf",
+            "afgcd",
+            "afedcg",
+            "abc",
+            "abcdefg",
+            "gfabcd",
+            "abcefg",
+            "fedcg",
+            "afed",
+            "bcdeg",
+            "afged",
+            "afge"
           };
 
 void write_digit(int num, int pins[7]) {
