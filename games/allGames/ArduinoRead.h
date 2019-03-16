@@ -1,25 +1,28 @@
+#ifndef ARDUINOREAD_H__
+#define ARDUINOREAD_H__
+
 const int LedPin = 2;
 int ledState = 0;
 int i = 0;
 
 char input[32];
 
-char RGBColor;
-char wantedDigit;
-char wordIndex;
-char morseCodeWord[3];
-char buttonOrder[4];
-char sequence[6];
+int RGBColor;
+int wantedDigit;
+int wordIndex;
+int morseCodeWord[3];
+int buttonOrder[4];
+int sequence[6];
 
-char values[16] = { 'r', '2', '3', 'f', 'o', 'x',  '0', '1', '2', '3', '2', '1', '3', '0', '1', '2'};
+char values[16] = { 'r', '2', '3', 'f', 'o', 'x', '0', '1', '2', '3', '2', '1', '3', '0', '1', '2' };
 
-void setup() {
-  pinMode(LedPin, OUTPUT);
-  Serial.begin(9600);
-  delay(500);
+void setupReading() {
+    pinMode(LedPin, OUTPUT);
+    Serial.begin(9600);
+    delay(500);
 }
 
-void loop() {
+void loadInputs() {
     char receiveVal;
 
     if (Serial.available() > 0) {
@@ -30,6 +33,9 @@ void loop() {
     }
 
     if (i > 15) {
+        for (int j = 0; j < i; j++) {
+            input[j] -= '0';
+        }
         RGBColor = input[0];
         wantedDigit = input[1];
         wordIndex = input[2];
@@ -53,4 +59,7 @@ void loop() {
     }
 
     digitalWrite(LedPin, ledState);
+    return ledState;
 }
+
+#endif

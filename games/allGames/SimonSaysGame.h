@@ -45,7 +45,6 @@ int tickSimonSays() {
     return 0;
 }
 
-//TODO: add Delay class
 void lightPattern() {
     for (int i = 0; i < index+1; i++) {
         digitalWrite(lights[seed[i]], HIGH);

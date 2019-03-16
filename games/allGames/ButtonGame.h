@@ -61,14 +61,14 @@ int tickButtonGame() {
             //right moment
             lightRGB(b_rgbColor);
         }
-    }else {
+    } else {
         turnOffRGB();
         if(b_buttonState == -1){
-          b_buttonState = 1;
-          if(digitInTimer(b_wantedDigitEnd)){
-            return 1;
-          }
-          return -1;
+            b_buttonState = 1;
+            if(digitInTimer(b_wantedDigitEnd)){
+              return 1;
+            }
+            return -1;
         }
     }
     return 0;
@@ -79,7 +79,7 @@ void setupButtonGame(char color, char digitStart, char digitEnd){
     b_wantedDigitStart = digitStart;
     b_wantedDigitEnd = digitEnd;
 
-    pinMode(b_buttonPin,INPUT);
+    pinMode(b_buttonPin, INPUT);
     for (int i = 23; i < 27; i++) {
         pinMode(i, OUTPUT);
     }

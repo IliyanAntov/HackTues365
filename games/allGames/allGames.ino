@@ -1,13 +1,15 @@
 #include "MorseCodeGame.h"
 #include "ButtonGame.h"
 #include "Timer.h"
+#include "ArduinoRead.h"
 
 void setup() {
-   setupMorseCode();
-   setupButtonGame('R', 5, 5); //just for now
    setupTimer();
+   while (!loadInputs()) {}
 
-   Serial.begin(9600);
+
+   setupMorseCode();
+   setupButtonGame('R', 5, 5);
 }
 
 void loop() {
