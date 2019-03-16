@@ -1,5 +1,5 @@
-int lights[4] = {2, 3, 4, 5};
-int buttonPins[4] = {6, 7, 8, 9};
+int lights[4] = {23, 24, 25, 26};
+int buttonPins[4] = {27, 28, 29, 30};
 int seed[4] = {0, 1, 2, 3};
 int index = 0;
 

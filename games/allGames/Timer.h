@@ -71,9 +71,8 @@ int tickTimer() {
     return 1;
 }
 
-int* getTime() {
-    int time[] = {t_minutes,t_seconds};
-    return time;
+int* getDigits() {
+    return t_digits;
 }
 
 #endif
