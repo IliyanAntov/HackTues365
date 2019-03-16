@@ -197,8 +197,7 @@ void setupMorseCode() {
     digitalWrite(m_led, LOW);
 
 }
-int tick() {
+int tickMorseCode() {
     show_morse();
-    //update_digit()
     return read_input();
 }
