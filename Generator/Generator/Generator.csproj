@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converter.cs" />
+    <Compile Include="Help\Converter.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,10 +58,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Randomize.cs" />
-    <Compile Include="RandomizeButtonGame.cs" />
-    <Compile Include="RandomizeMorseCodeGame.cs" />
-    <Compile Include="RandomizeSimonSaysGame.cs" />
+    <Compile Include="Randomizing\Randomize.cs" />
+    <Compile Include="Randomizing\RandomizeButtonGame.cs" />
+    <Compile Include="Randomizing\RandomizeMorseCodeGame.cs" />
+    <Compile Include="Randomizing\RandomizeSimonSaysGame.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -90,7 +90,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Morse_Code.png" />
+    <None Include="Images\Morse_Code.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
