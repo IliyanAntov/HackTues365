@@ -4,7 +4,7 @@
 
 class Delay {
     int milliseconds_;
-    int start_time_;
+    unsigned long start_time_;
     bool started_ = false;
 public:
 
@@ -22,7 +22,7 @@ public:
     }
 
     bool elapsed() {
-        return started_ && millis() - start_time_ >= milliseconds_;
+        return millis() - start_time_ >= milliseconds_;
     }
 
     bool started() {
@@ -34,7 +34,7 @@ public:
 // | | |
 // v v v
 
-char morse_code_mapping[30][5] = {
+char morse_code_mapping[][5] = {
   "01", //A -> .-
   "1000", //B -> -...
   "1010", //C -> -.-.
@@ -65,7 +65,7 @@ char morse_code_mapping[30][5] = {
 
 //WE HAVE TO CHANGE THE PIN NUMBERS TO BE MORE SEQUENCIAL ONCE WE PUT EVERYTHING ON ONE ARDUINO !!!
 
-char input_word[3] = {'A','H','I'};
+int input_word[3] = {4, 7, 8};
 int num_to_display = 5;
 
 int potentiometer = 14;
@@ -137,38 +137,45 @@ Delay lightOnDelay;
 Delay lightOffDelay;
 
 void show_morse() {
-    int letter_index = input_word[currentLetter] - 'A';
-
-    if ((!lightOffDelay.started() || lightOffDelay.elapsed()) && !lightOnDelay.started()) {
-        if (morse_code_mapping[letter_index][currentChar] == '0') {
-            //dot
-            lightOnDelay.set_milliseconds(dot_delay);
-            digitalWrite(led, HIGH);
-            lightOnDelay.start();
-        } else if(morse_code_mapping[letter_index][currentChar] == '1') {
-            //dash
-            lightOnDelay.set_milliseconds(dash_delay);
-            digitalWrite(led, HIGH);
-            lightOnDelay.start();
+    if (lightOnDelay.started()) {
+        if (!lightOnDelay.elapsed()) {
+            return;
         }
-        if (++currentChar == strlen(morse_code_mapping[letter_index])) {
-            currentChar = 0;
-            currentLetter++;
-        }
-        lightOffDelay.restart();
-    }
-    if (lightOnDelay.elapsed()) {
+        //has elapsed
+        lightOnDelay.restart();
         digitalWrite(led, LOW);
-        int pauseTime = 200;
+        int pause_time = 200;
         if (currentChar == 0) {
-            pauseTime = pause_btw_letters;
-        } else if (currentLetter > 3) {
-            pauseTime = pause_btw_reset;
+            pause_time = pause_btw_letters;
+        }
+        if (currentLetter == 3) {
+            pause_time = pause_btw_reset;
             currentLetter = 0;
         }
-        lightOffDelay.set_milliseconds(pauseTime);
+        lightOffDelay.set_milliseconds(pause_time);
         lightOffDelay.start();
-        lightOnDelay.restart();
+    }
+
+    if (lightOffDelay.started()) {
+        if (!lightOffDelay.elapsed()) {
+            return;
+        }
+        //has elapsed
+        lightOffDelay.restart();
+    }
+
+    char* current = morse_code_mapping[input_word[currentLetter]];
+
+    digitalWrite(led, HIGH);
+    if (current[currentChar] == '0') {
+        lightOnDelay.set_milliseconds(dot_delay);
+    } else {
+        lightOnDelay.set_milliseconds(dash_delay);
+    }
+    lightOnDelay.start();
+    if (++currentChar == strlen(current)) {
+        currentChar = 0;
+        currentLetter++;
     }
 }
 
