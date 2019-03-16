@@ -1,7 +1,8 @@
 #include "Game.h"
 #include "MorseCodeGame.h"
+#include "ButtonGame.h"
 
-Game* games[1];
+Game *game;
 
 void setup() {
     games[0] = malloc(MorseCodeGame());
