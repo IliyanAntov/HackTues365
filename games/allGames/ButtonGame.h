@@ -44,25 +44,22 @@ void lightRGB(char color) {
 }
 
 int digitInTimer(int wantedDigit){ 
-    return(getTimer()[1]%10 == wantedDigit || getTimer()[1]/10 == wantedDigit || getTimer()[0] == wantedDigit);
+    return(t_seconds%10 == wantedDigit || t_seconds/10 == wantedDigit || t_minutes == wantedDigit);
 }
 
 int tickButtonGame() {
     if (!digitalRead(b_buttonPin) && b_buttonState == 1) {
         b_buttonState = -1;
-        if (digitInTimer(b_wantedDigitStart)) {
+        if (digitInTimer(b_wantedDigitStart) && b_buttonState == -1) {
             //right moment
-
-            while (b_buttonState == -1) {
-                lightRGB(b_rgbColor);
-                if (digitalRead(b_buttonPin)) {
-                    b_buttonState = 1;
-                    turnOffRGB();
-                    if (digitInTimer(b_wantedDigitEnd)) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
+            lightRGB(b_rgbColor);
+            if (digitalRead(b_buttonPin)) {
+                b_buttonState = 1;
+                turnOffRGB();
+                if (digitInTimer(b_wantedDigitEnd)) {
+                    return 1;
+                } else {
+                    return -1;
                 }
             }
         } else {

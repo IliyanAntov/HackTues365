@@ -11,8 +11,6 @@ void setup() {
 }
 
 void loop() {
-    Serial.println(getTime()[0]);
-    Serial.println(getTime()[1]);
     if(tickTimer()){
         tickMorseCode();
         tickButtonGame();
