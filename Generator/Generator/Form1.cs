@@ -42,7 +42,7 @@ namespace Generator {
             // <----- Send data ------> //
 
             for (int i = 0; i < rows.Count; i++) {
-                string currentRow = hc[i].ToString();
+                string currentRow = values[i].ToString();
                 port.Write(currentRow);
 
                 while (port.ReadExisting() != "1") {
@@ -101,9 +101,15 @@ namespace Generator {
             string MorseCodeGameHeading = "Morse Code Game \n\n";
             string SimonSaysGameHeading = "Simon Says Game \n\n";
 
+            string ButtonGameHead = "[{LED Color} -> {Release on available digit}]\n";
+            string MorseCodeGameHead = "[{Word} -> {Character to enter}]\n";
+            string SimonSaysGameHead = "[{Blinking LED} -> {Button to press}]";
+            
             // <----- Button Game -----> //
 
             sb.Append(ButtonGameHeading);
+            sb.Append(ButtonGameHead);
+
 
             for (int i = 0; i < colors.Length; i++) {
                 string currentColor = Converter.CharToStr(colors[i]);
@@ -116,12 +122,13 @@ namespace Generator {
 
             sb.Append("\n");
             sb.Append(MorseCodeGameHeading);
+            sb.Append(MorseCodeGameHead);
 
             for (int i = 0; i < mcg.Words.Count; i++) {
                 string word = mcg.Words[i].ToUpper();
                 int index = mcg.Indexes[i];
 
-                sb.Append($"{word} -> {index} \n");
+                sb.Append($"{word} -> {Converter.DecToHex(index)} \n");
             }
 
             // <------ Simon Says -----> //
