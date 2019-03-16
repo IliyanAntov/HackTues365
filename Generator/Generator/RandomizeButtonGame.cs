@@ -33,7 +33,7 @@ namespace Generator {
                 num = random.Next(1000, 10000);
             }
 
-            return IntToList(num);
+            return ReturnDigits(num);
         }
 
         public int RandomNumber(int min, int max) {
@@ -42,12 +42,12 @@ namespace Generator {
         }
 
         private bool CheckRepeatingDigits(int num) {
-            List<int> digits = IntToList(num);
+            List<int> digits = ReturnDigits(num);
 
             return digits.GroupBy(n => n).Any(c => c.Count() > 1);
         }
 
-        private List<int> IntToList(int n) {
+        private List<int> ReturnDigits(int n) {
             List<int> digits = new List<int>();
 
             while (n > 0) {
