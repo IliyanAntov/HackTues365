@@ -1,6 +1,5 @@
 #include "Game.h"
 
-
 int timeToPress = 3;
 char colors[4] = {'R','G','B','Y'};
 int buttonPin = 3;
@@ -71,19 +70,15 @@ void turnOffRGB(){
   digitalWrite(common_cathode,HIGH);
 }
 
-class ButtonGame : public Game {
-public:
-    ButtonGame() {
-        randomSeed(analogRead(0));
-        pinMode(buttonPin,INPUT);
-        for (int i = 10;i<14;i++) {
-            pinMode(i,OUTPUT);
-        }
-        turnOffRGB();
-
+void setupButtonGame(){
+    randomSeed(analogRead(0));
+    pinMode(buttonPin,INPUT);
+    for (int i = 10;i<14;i++) {
+        pinMode(i,OUTPUT);
     }
+    turnOffRGB();
+}
 
-    int tick() {
-        return buttonGame();
-    }
+int tickButtonGame(){
+    return buttonGame();
 }
