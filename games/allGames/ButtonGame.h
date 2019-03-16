@@ -1,11 +1,11 @@
 #include "timer.h"
 #include "Button.h"
 
-int b_buttonPin = 22;
-int b_common_cathode = 23;
-int b_red_anode = 24;
-int b_green_anode = 25;
-int b_blue_anode = 26;
+int b_buttonPin = 23;
+int b_common_cathode = 24;
+int b_red_anode = 25;
+int b_green_anode = 26;
+int b_blue_anode = 27;
 
 int b_buttonState = 1;
 
@@ -28,7 +28,7 @@ void turnOffRGB(){
 }
 
 void lightRGB(char color) {
-  switch(color){
+  switch(color) {
     case 'R':
       turnOnRGB(1,0,0);
       break;
