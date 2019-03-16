@@ -1,40 +1,28 @@
-int timeToPress = 3;
+int b_num_to_display = 3;
 char colors[4] = {'R','G','B','Y'};
-int buttonPin = 3;
-int common_cathode = 10;
-int red_anode = 11;
-int green_anode = 12;
-int blue_anode = 13;
+int b_buttonPin = 3;
+int b_common_cathode = 10;
+int b_red_anode = 11;
+int b_green_anode = 12;
+int b_blue_anode = 13;
 
 int fakeTimer = 3;
 
-int buttonState = 1;
+int b_buttonState = 1;
 
-int tickButtonGame() {
-    if (!digitalRead(buttonPin) && buttonState == 1) {
-        buttonState = -1;
-        if (fakeTimer == timeToPress) {
-            //right moment
-            int index = random(4);
-            char color = colors[index];
-            while (buttonState == -1) {
-                lightRGB(color);
-                if (digitalRead(buttonPin)) {
-                    buttonState = 1;
-                    turnOffRGB();
-                    if (fakeTimer == timeToPress) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
-                }
-            }
-        } else {
-            turnOffRGB();
-            return -1
-        }
-    }
-    return 0;
+
+void turnOnRGB(int R, int G, int B){
+  digitalWrite(b_red_anode,R);
+  digitalWrite(b_green_anode,G);
+  digitalWrite(b_blue_anode,B);
+  digitalWrite(b_common_cathode,LOW);
+}
+
+void turnOffRGB(){
+  digitalWrite(b_red_anode,LOW);
+  digitalWrite(b_green_anode,LOW);
+  digitalWrite(b_blue_anode,LOW);
+  digitalWrite(b_common_cathode,HIGH);
 }
 
 void lightRGB(char color) {
@@ -54,23 +42,36 @@ void lightRGB(char color) {
   }
 }
 
-void turnOnRGB(int R, int G, int B){
-  digitalWrite(red_anode,R);
-  digitalWrite(green_anode,G);
-  digitalWrite(blue_anode,B);
-  digitalWrite(common_cathode,LOW);
-}
-
-void turnOffRGB(){
-  digitalWrite(red_anode,LOW);
-  digitalWrite(green_anode,LOW);
-  digitalWrite(blue_anode,LOW);
-  digitalWrite(common_cathode,HIGH);
+int tickButtonGame() {
+    if (!digitalRead(b_buttonPin) && b_buttonState == 1) {
+        b_buttonState = -1;
+        if (fakeTimer == b_num_to_display) {
+            //right moment
+            int index = random(4);
+            char color = colors[index];
+            while (b_buttonState == -1) {
+                lightRGB(color);
+                if (digitalRead(b_buttonPin)) {
+                    b_buttonState = 1;
+                    turnOffRGB();
+                    if (fakeTimer == b_num_to_display) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            }
+        } else {
+            turnOffRGB();
+            return -1;
+        }
+    }
+    return 0;
 }
 
 void setupButtonGame(){
     randomSeed(analogRead(0));
-    pinMode(buttonPin,INPUT);
+    pinMode(b_buttonPin,INPUT);
     for (int i = 10;i<14;i++) {
         pinMode(i,OUTPUT);
     }
