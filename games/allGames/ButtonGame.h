@@ -44,8 +44,14 @@ void lightRGB(char color) {
   }
 }
 
-int digitInTimer(int wantedDigit){
-    return(getTime()[1]%10 == wantedDigit || getTime()[1]/10 == wantedDigit || getTime()[0] == wantedDigit);
+int digitInTimer(int wantedDigit) {
+    int *digits = getDigits();
+    for (int i = 0; i < 3; i++) {
+        if (digits[i] == wantedDigit) {
+            return true;
+        }
+    }
+    return false;
 }
 
 int tickButtonGame() {
@@ -53,7 +59,7 @@ int tickButtonGame() {
         b_buttonState = -1;
         if (digitInTimer(b_wantedDigitStart)) {
             //right moment
-            lightRGB(b_rgbColor); 
+            lightRGB(b_rgbColor);
         }
     }else {
         turnOffRGB();
@@ -62,7 +68,7 @@ int tickButtonGame() {
           if(digitInTimer(b_wantedDigitEnd)){
             return 1;
           }
-          return -1;   
+          return -1;
         }
     }
     return 0;
