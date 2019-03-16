@@ -1,15 +1,16 @@
-int b_num_to_display = 3;
-char colors[4] = {'R','G','B','Y'};
-int b_buttonPin = 3;
-int b_common_cathode = 10;
-int b_red_anode = 11;
-int b_green_anode = 12;
-int b_blue_anode = 13;
+#include "timer.h"
 
-int fakeTimer = 3;
+int b_buttonPin =21;
+int b_common_cathode = 22;
+int b_red_anode = 23;
+int b_green_anode = 24;
+int b_blue_anode = 25;
 
 int b_buttonState = 1;
 
+char b_rgbColor;
+int b_wantedDigitStart;
+int b_wantedDigitEnd;
 
 void turnOnRGB(int R, int G, int B){
   digitalWrite(b_red_anode,R);
@@ -45,16 +46,15 @@ void lightRGB(char color) {
 int tickButtonGame() {
     if (!digitalRead(b_buttonPin) && b_buttonState == 1) {
         b_buttonState = -1;
-        if (fakeTimer == b_num_to_display) {
+        if (digitInTimer(b_wantedDigitStart)) {
             //right moment
-            int index = random(4);
-            char color = colors[index];
+
             while (b_buttonState == -1) {
-                lightRGB(color);
+                lightRGB(b_rgbColor);
                 if (digitalRead(b_buttonPin)) {
                     b_buttonState = 1;
                     turnOffRGB();
-                    if (fakeTimer == b_num_to_display) {
+                    if (digitInTimer(b_wantedDigitEnd)) {
                         return 1;
                     } else {
                         return -1;
@@ -69,11 +69,18 @@ int tickButtonGame() {
     return 0;
 }
 
-void setupButtonGame(){
-    randomSeed(analogRead(0));
+void setupButtonGame(char color, char digitStart, char digitEnd){
+    b_rgbColor = color;
+    b_wantedDigitStart = digitStart;
+    b_wantedDigitEnd = digitEnd;
+    
     pinMode(b_buttonPin,INPUT);
-    for (int i = 10; i < 14; i++) {
+    for (int i = 21; i < 26; i++) {
         pinMode(i,OUTPUT);
     }
     turnOffRGB();
+}
+
+int digitInTimer(int wantedDigit){ 
+    return(t_seconds%10 == wantedDigit || t_seconds/10 == wantedDigit || t_minutes == wantedDigit);
 }

@@ -11,10 +11,11 @@ void setup() {
 }
 
 void loop() {
-   if(!tickTimer()){
+    Serial.println(t_seconds%10);
+    if(!tickTimer()){
         tickMorseCode();
         tickButtonGame();
-   }else{
-       Serial.println("nz i az");
-   }
+    }else{
+        Serial.println("nz i az");
+    }
 }

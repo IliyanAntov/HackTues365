@@ -1,3 +1,6 @@
+#ifndef TIMER_H__
+#define TIMER_H__
+
 #include "Delay.h"
 #include "sevenSegment.h"
 
@@ -6,8 +9,8 @@ int t_OA1 = 9;
 int t_OA2 = 10;
 int t_OA3 = 11;
 
-int t_seconds = 20;
-int t_minutes = 0;
+int t_seconds = 24;
+int t_minutes = 1;
 int t_digits[3];
 unsigned long t_time = millis();
 
@@ -77,4 +80,4 @@ int tickTimer(){
     return 0;
 }
 
-
+#endif
