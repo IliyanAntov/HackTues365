@@ -1,3 +1,4 @@
+
 #include "Delay.h"
 
 char m_mapping[26][5] = {
@@ -29,9 +30,7 @@ char m_mapping[26][5] = {
   "1100" //Z -> --..
 };
 
-//WE HAVE TO CHANGE THE PIN m_numbers TO BE MORE SEQUENCIAL ONCE WE PUT EVERYTHING ON ONE ARDUINO !!!
-
-int m_input_words[3] = {4, 7, 8};
+int m_random_words[3] = {4, 7, 8};
 int m_num_to_display = 5;
 
 int m_potentiometer = 14;
@@ -43,34 +42,8 @@ int m_dash_delay = 700;
 int m_pause_btw_letters = 1500;
 int m_pause_btw_reset = 3000;
 
-char m_numbers[16][8] = {
-              "abcdef",
-              "bc",
-              "abged",
-              "abcgd",
-              "bcgf",
-              "afgcd",
-              "afedcg",
-              "abc",
-              "abcdefg",
-              "gfabcd",
-              "abcefg",
-              "fedcg",
-              "afed",
-              "bcdeg",
-              "afged",
-              "afge"
-          };
-
-int m_OA1 = 0;
-int m_aPin = A2;
-int m_bPin = 2;
-int m_cPin = 4;
-int m_dPin = 5;
-int m_ePin = 6;
-int m_fPin = 8;
-int m_gPin = 9;
-
+int m_OA1 = 13;
+int m_indicator_pins[] = {14, 15, 16, 17, 18, 19, 20};
 
 int m_currentLetter = 0;
 int m_currentChar = 0;
@@ -105,7 +78,7 @@ void show_morse() {
         m_lightOffDelay.restart();
     }
 
-    char* current = m_mapping[m_input_words[m_currentLetter]];
+    char* current = m_mapping[m_random_words[m_currentLetter]];
 
     digitalWrite(m_led, HIGH);
     if (current[m_currentChar] == '0') {
@@ -117,37 +90,6 @@ void show_morse() {
     if (++m_currentChar == strlen(current)) {
         m_currentChar = 0;
         m_currentLetter++;
-    }
-}
-
-
-
-void write_digit(char num[8]) {
-    for(int j = 0; j < strlen(num); j++){
-          char letter = num[j];
-        switch(letter){
-          case 'a':
-              digitalWrite(m_aPin, LOW);
-              break;
-          case 'b':
-              digitalWrite(m_bPin, LOW);
-              break;
-          case 'c':
-              digitalWrite(m_cPin, LOW);
-              break;
-          case 'd':
-              digitalWrite(m_dPin, LOW);
-              break;
-          case 'e':
-              digitalWrite(m_ePin, LOW);
-              break;
-          case 'f':
-              digitalWrite(m_fPin, LOW);
-              break;
-          case 'g':
-              digitalWrite(m_gPin, LOW);
-              break;
-        }
     }
 }
 
@@ -166,7 +108,7 @@ int read_input() {
     int t = analogRead(m_potentiometer);
     t = map(t, 0, 1020, 0, 15);
 
-    write_digit(m_numbers[t]);
+    write_digit(t, m_indicator_pins);
     light_digit();
 
     if (!digitalRead(buttonPin)) {
@@ -182,14 +124,10 @@ int read_input() {
 void setupMorseCode() {
     pinMode(m_potentiometer, INPUT);
     pinMode(buttonPin, INPUT);
-    pinMode(m_aPin, OUTPUT);
-    pinMode(m_bPin, OUTPUT);
-    digitalWrite(m_aPin, HIGH);
-    digitalWrite(m_bPin, HIGH);
 
-    for (int i = 4; i < 10; i++) {
-        pinMode(i, OUTPUT);
-        digitalWrite(i, HIGH);
+    for (int i = 0; i < 7; i++) {
+        pinMode(m_indicator_pins[i], OUTPUT);
+        digitalWrite(m_indicator_pins, HIGH);
     }
 
     pinMode(m_OA1, OUTPUT);
@@ -197,7 +135,8 @@ void setupMorseCode() {
     digitalWrite(m_led, LOW);
 
 }
-int tickMorseCode() {
+
+int tick() {
     show_morse();
     return read_input();
 }
