@@ -6,6 +6,9 @@
 // v v v
 
 #include "Delay.h"
+#include "Game.h"
+
+
 
 char morse_code_mapping[][5] = {
   "01", //A -> .-
@@ -79,31 +82,6 @@ int fPin = 8;
 int gPin = 9;
 
 
-void setup() {
-  pinMode(potentiometer, INPUT);
-  pinMode(buttonPin, INPUT);
-  pinMode(aPin, OUTPUT);
-  pinMode(bPin, OUTPUT);
-  digitalWrite(aPin, HIGH);
-  digitalWrite(bPin, HIGH);
-
-  for (int i = 4; i < 10; i++) {
-    pinMode(i, OUTPUT);
-    digitalWrite(i, HIGH);
-  }
-
-  pinMode(OA1, OUTPUT);
-  digitalWrite(OA1, LOW);
-  digitalWrite(led, LOW);
-
-  Serial.begin(9600);
-}
-
-void loop() {
-    show_morse();
-    read_input();
-}
-
 int currentLetter = 0;
 int currentChar = 0;
 Delay lightOnDelay;
@@ -152,21 +130,7 @@ void show_morse() {
     }
 }
 
-void read_input(){
-    int t = analogRead(potentiometer);
-    t = map(t, 0, 1020, 0, 15);
 
-    write_digit(Numbers[t]);
-    light_digit();
-
-    if (!digitalRead(buttonPin)) {
-        if (t == num_to_display) {
-            Serial.println("brao ludko");
-        } else {
-            Serial.println("failure");
-        }
-    }
-}
 
 void write_digit(char num[8]) {
     for(int j = 0; j < strlen(num); j++){
@@ -197,13 +161,57 @@ void write_digit(char num[8]) {
     }
 }
 
-void light_digit(){
+void light_digit() {
     digitalWrite(OA1, HIGH);
     delay(3);
     for(int i = 2; i < 10; i++){
-      if(i!=3 && i!=7){
+      if(i != 3 && i != 7){
        digitalWrite(i, HIGH);
       }
    }
    digitalWrite(A2,HIGH);
+}
+
+int read_input() {
+    int t = analogRead(potentiometer);
+    t = map(t, 0, 1020, 0, 15);
+
+    write_digit(Numbers[t]);
+    light_digit();
+
+    if (!digitalRead(buttonPin)) {
+        if (t == num_to_display) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+    return 0;
+}
+
+class MorseCodeGame : public Game {
+public:
+    MorseCodeGame() {
+        pinMode(potentiometer, INPUT);
+        pinMode(buttonPin, INPUT);
+        pinMode(aPin, OUTPUT);
+        pinMode(bPin, OUTPUT);
+        digitalWrite(aPin, HIGH);
+        digitalWrite(bPin, HIGH);
+
+        for (int i = 4; i < 10; i++) {
+            pinMode(i, OUTPUT);
+            digitalWrite(i, HIGH);
+        }
+
+        pinMode(OA1, OUTPUT);
+        digitalWrite(OA1, LOW);
+        digitalWrite(led, LOW);
+
+    }
+    int tick() {
+        show_morse();
+        //update_digit()
+        return read_input();
+    }
 }
