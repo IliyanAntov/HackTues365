@@ -1,6 +1,34 @@
-
 //dot - 0
 //dash - 1
+
+
+class Delay {
+    int milliseconds_;
+    int start_time_;
+    bool started_ = false;
+public:
+
+    void set_milliseconds(int milliseconds) {
+        milliseconds_ = milliseconds;
+    }
+
+    void start() {
+        start_time_ = millis();
+        started_ = true;
+    }
+
+    void restart() {
+        started_ = false;
+    }
+
+    bool elapsed() {
+        return started_ && millis() - start_time_ >= milliseconds_;
+    }
+
+    bool started() {
+        return started_;
+    }
+};
 
 //hardcode incoming
 // | | |
@@ -21,13 +49,13 @@ char morse_code_mapping[30][5] = {
   "0100", //L -> .-..
   "11", //M -> --
   "10", //N -> -.
-  "111", //O -> --- 
+  "111", //O -> ---
   "0110" //P -> .--.
   "1101", //Q -> --.-
   "010", //R -> .-.
   "000", //S -> ...
   "1", //T -> -
-  "001", //U -> ..- 
+  "001", //U -> ..-
   "0001", //V -> ...-
   "011", //W -> .--
   "1001", //X -> -..-
@@ -49,9 +77,6 @@ int dash_delay = 700;
 int pause_btw_letters = 1500;
 int pause_btw_reset = 3000;
 
-int game_over = 0;
-int won = 0; 
-
 char Numbers[16][8] = {
               "abcdef",
               "bc",
@@ -68,7 +93,7 @@ char Numbers[16][8] = {
               "afed",
               "bcdeg",
               "afged",
-              "afge"         
+              "afge"
           };
 
 int OA1 = 0;
@@ -80,83 +105,81 @@ int ePin = 6;
 int fPin = 8;
 int gPin = 9;
 
-int momentForLightUp;
-int moment2;
 
 void setup() {
-  pinMode(potentiometer,INPUT);
-  pinMode(buttonPin,INPUT);
-  pinMode(aPin,OUTPUT);
-  pinMode(bPin,OUTPUT);
-  digitalWrite(aPin,HIGH);
-  digitalWrite(bPin,HIGH);
-  
-  for(int i = 4;i<10;i++){
-    pinMode(i,OUTPUT);
-    digitalWrite(i,HIGH);
+  pinMode(potentiometer, INPUT);
+  pinMode(buttonPin, INPUT);
+  pinMode(aPin, OUTPUT);
+  pinMode(bPin, OUTPUT);
+  digitalWrite(aPin, HIGH);
+  digitalWrite(bPin, HIGH);
+
+  for (int i = 4; i < 10; i++) {
+    pinMode(i, OUTPUT);
+    digitalWrite(i, HIGH);
   }
-  
+
   pinMode(OA1, OUTPUT);
   digitalWrite(OA1, LOW);
-  digitalWrite(led,LOW);
-  
+  digitalWrite(led, LOW);
+
   Serial.begin(9600);
 }
 
 void loop() {
-  if(!game_over){
+    show_morse();
     read_input();
-    //show_morse();
-  }
 }
 
-void show_morse(){
-  for(int i = 0;i<3;i++){
-    //words
-    int letter_index = input_word[i] - 'A';
-    //size_t symbol_size = sizeof(morse_code_mapping[i])/sizeof(char); //CHECK IF THE SIZE CALCULATION IS RIGHT
-    Serial.println(strlen(morse_code_mapping[letter_index]));
-    
-    for(int j = 0;j<strlen(morse_code_mapping[letter_index]);j++){
-      if(morse_code_mapping[letter_index][j] == '0'){
-        //dot
-        morse_symbol(dot_delay);
-      }else if(morse_code_mapping[letter_index][j] == '1'){
-        //dash
-        morse_symbol(dash_delay);
-      }
+int currentLetter = 0;
+int currentChar = 0;
+Delay lightOnDelay;
+Delay lightOffDelay;
+
+void show_morse() {
+    int letter_index = input_word[currentLetter] - 'A';
+
+    if ((!lightOffDelay.started() || lightOffDelay.elapsed()) && !lightOnDelay.started()) {
+        if (morse_code_mapping[letter_index][currentChar] == '0') {
+            //dot
+            lightOnDelay.set_milliseconds(dot_delay);
+            digitalWrite(led, HIGH);
+            lightOnDelay.start();
+        } else if(morse_code_mapping[letter_index][currentChar] == '1') {
+            //dash
+            lightOnDelay.set_milliseconds(dash_delay);
+            digitalWrite(led, HIGH);
+            lightOnDelay.start();
+        }
+        if (++currentChar == strlen(morse_code_mapping[letter_index])) {
+            currentChar = 0;
+            currentLetter++;
+        }
+        lightOffDelay.restart();
     }
-    delay(pause_btw_letters);
-  }
-  delay(pause_btw_reset);
-}
-
-//morse_symbol(dot_delay) - dot
-//morse_symbol(dash_delay) - dash
-
-void morse_symbol(int delay_time){
-  int currMoment = millis();
-  while(millis() - currMoment<delay_time){
-    digitalWrite(led,HIGH);
-  }
-  //delay(delay_time);
-  currMoment = millis();
-  while(millis() - currMoment<200){
-    digitalWrite(led,LOW);
-  }
-  //delay(200);
+    if (lightOnDelay.elapsed()) {
+        digitalWrite(led, LOW);
+        int pauseTime = 200;
+        if (currentChar == 0) {
+            pauseTime = pause_btw_letters;
+        } else if (currentLetter > 3) {
+            pauseTime = pause_btw_reset;
+            currentLetter = 0;
+        }
+        lightOffDelay.set_milliseconds(pauseTime);
+        lightOffDelay.start();
+        lightOnDelay.restart();
+    }
 }
 
 void read_input(){
   int t = analogRead(potentiometer);
-  Serial.println(t);
   t = map(t,0,1020,0,15);
-  Serial.println(t);
+
   write_digit(Numbers[t]);
   light_digit();
-  
+
   if(!digitalRead(buttonPin)){
-    game_over = 1;
     if(t == num_to_display){
         //Success
         Serial.println("brao ludko");
@@ -193,13 +216,13 @@ void write_digit(char num[8]) {
               digitalWrite(gPin, LOW);
               break;
         }
-    }   
+    }
 }
 
 void light_digit(){
     digitalWrite(OA1, HIGH);
     delay(3);
-    for(int i = 2; i < 10; i++){ 
+    for(int i = 2; i < 10; i++){
       if(i!=3 && i!=7){
        digitalWrite(i, HIGH);
       }
