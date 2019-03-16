@@ -1,6 +1,6 @@
 #include "MorseCodeGame.h"
 #include "ButtonGame.h"
-#include "timer.h"
+#include "Timer.h"
 
 void setup() {
    setupMorseCode();

@@ -1,4 +1,4 @@
-#include "sevenSegment.h"
+#include "SevenSegment.h"
 #include "Delay.h"
 
 char m_mapping[26][5] = {
