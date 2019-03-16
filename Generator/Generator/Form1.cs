@@ -30,11 +30,16 @@ namespace Generator {
         private void button1_Click(object sender, EventArgs e) {  // button click event listener
             List<char> rows = new List<char>();  // collection of all rows for the arduino
 
-            ButtonGameValues = new RandomizeButtonGame();  // create a new set of random values
+            // <----- Create sets of values -----> //
+
+            ButtonGameValues = new RandomizeButtonGame();  
             MorseCodeGameValues = new RandomizeMorseCodeGame();
 
+            // <----- Copy data ------> //
 
             rows.AddRange(FormatData(ButtonGameValues, MorseCodeGameValues));
+
+            // <----- Send data ------> //
 
             for (int i = 0; i < rows.Count; i++) {
                 port.Write(rows[i].ToString());
@@ -43,6 +48,8 @@ namespace Generator {
                     Thread.Sleep(10);
                 }
             }
+
+            // <----- Display text -----> //
 
             label1.Text = ButtonGameRows(ButtonGameValues, MorseCodeGameValues) + $" \n {rows[0]} {rows[1]}   {rows[2]} {rows[3]}{rows[4]}{rows[5]}";
         }
@@ -55,10 +62,14 @@ namespace Generator {
             List<char> rows = new List<char>();
             char[] word = mcg.Word.ToArray();
 
+            // <----- Button Game -----> //
+
             rows.Add(colors[bg.Index]);  // pick the chosen color
             rows.Add((char)(bg.TimeValues[bg.Index] + '0'));  // pick the chosen digit
 
-            rows.Add((char)(mcg.Index + '0'));
+            // <------ Morse Code -----> //
+
+            rows.Add(mcg.Index);
 
             for (int i = 0; i < word.Length; i++) {  // add MCG word as seperate rows
                 rows.Add(word[i]);
@@ -72,11 +83,15 @@ namespace Generator {
             string ButtonGameHeading = "Button Game \n\n";
             string MorseCodeGameHeading = "Morse Code Game \n\n";
 
+            // <----- Button Game -----> //
+
             sb.Append(ButtonGameHeading);
 
             for (int i = 0; i < colors.Length; i++) {
                 sb.Append($"{colors[i]} -> {bg.TimeValues[i]} \n");
             }
+
+            // <----- Morse Code -----> //
 
             sb.Append("\n");
             sb.Append(MorseCodeGameHeading);

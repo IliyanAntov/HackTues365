@@ -6,15 +6,8 @@ using System.Threading.Tasks;
 
 namespace Generator {
     public class Randomize {
-        private string[] words = new string[] {"joy", "zip", "jog", "fox", "max",
-                                               "cup", "gym", "car", "fax", "axe"};
-
         public Randomize() {
 
-        }
-
-        protected List<string> Words {
-            get { return words.ToList(); }
         }
 
         protected int RandomNumber(int min, int max) {
