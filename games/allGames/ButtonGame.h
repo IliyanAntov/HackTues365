@@ -1,5 +1,3 @@
-#include "Game.h"
-
 int timeToPress = 3;
 char colors[4] = {'R','G','B','Y'};
 int buttonPin = 3;
@@ -12,7 +10,7 @@ int fakeTimer = 3;
 
 int buttonState = 1;
 
-int buttonGame() {
+int tickButtonGame() {
     if (!digitalRead(buttonPin) && buttonState == 1) {
         buttonState = -1;
         if (fakeTimer == timeToPress) {
@@ -77,8 +75,4 @@ void setupButtonGame(){
         pinMode(i,OUTPUT);
     }
     turnOffRGB();
-}
-
-int tickButtonGame(){
-    return buttonGame();
 }

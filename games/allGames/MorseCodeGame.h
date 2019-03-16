@@ -128,8 +128,6 @@ void show_morse() {
     }
 }
 
-
-
 void write_digit(char num[8]) {
     for(int j = 0; j < strlen(num); j++){
           char letter = num[j];
@@ -205,8 +203,8 @@ void setupMorseCode() {
     digitalWrite(led, LOW);
 
 }
-int tick() {
+
+int tickMorseCode() {
     show_morse();
-    //update_digit()
     return read_input();
 }
