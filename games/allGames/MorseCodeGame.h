@@ -8,9 +8,7 @@
 #include "Delay.h"
 #include "Game.h"
 
-
-
-char morse_code_mapping[][5] = {
+char morse_code_mapping[26][5] = {
   "01", //A -> .-
   "1000", //B -> -...
   "1010", //C -> -.-.
@@ -189,29 +187,26 @@ int read_input() {
     return 0;
 }
 
-class MorseCodeGame : public Game {
-public:
-    void setup() {
-        pinMode(potentiometer, INPUT);
-        pinMode(buttonPin, INPUT);
-        pinMode(aPin, OUTPUT);
-        pinMode(bPin, OUTPUT);
-        digitalWrite(aPin, HIGH);
-        digitalWrite(bPin, HIGH);
+void setupMorseCode() {
+    pinMode(potentiometer, INPUT);
+    pinMode(buttonPin, INPUT);
+    pinMode(aPin, OUTPUT);
+    pinMode(bPin, OUTPUT);
+    digitalWrite(aPin, HIGH);
+    digitalWrite(bPin, HIGH);
 
-        for (int i = 4; i < 10; i++) {
-            pinMode(i, OUTPUT);
-            digitalWrite(i, HIGH);
-        }
-
-        pinMode(OA1, OUTPUT);
-        digitalWrite(OA1, LOW);
-        digitalWrite(led, LOW);
-
+    for (int i = 4; i < 10; i++) {
+        pinMode(i, OUTPUT);
+        digitalWrite(i, HIGH);
     }
-    int tick() {
-        show_morse();
-        //update_digit()
-        return read_input();
-    }
+
+    pinMode(OA1, OUTPUT);
+    digitalWrite(OA1, LOW);
+    digitalWrite(led, LOW);
+
+}
+int tick() {
+    show_morse();
+    //update_digit()
+    return read_input();
 }

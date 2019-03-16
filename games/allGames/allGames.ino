@@ -1,17 +1,11 @@
-#include "Delay.h"
-#include "Game.h"
-
-Delay h;
-Game *game;
+#include "MorseCodeGame.h"
 
 void setup() {
-  // put your setup code here, to run once:
-
+    setupMorseCode();
 }
 
 
 
 void loop() {
-  // put your main code here, to run repeatedly:
 
 }
