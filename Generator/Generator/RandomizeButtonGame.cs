@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Generator {
-    public class RandomizeButtonGame {
+    public class RandomizeButtonGame : Randomize {
         private List<int> timeValues;
         private int index;
 
@@ -34,28 +34,6 @@ namespace Generator {
             }
 
             return ReturnDigits(num);
-        }
-
-        public int RandomNumber(int min, int max) {
-            Random random = new Random();
-            return random.Next(min, max);
-        }
-
-        private bool CheckRepeatingDigits(int num) {
-            List<int> digits = ReturnDigits(num);
-
-            return digits.GroupBy(n => n).Any(c => c.Count() > 1);
-        }
-
-        private List<int> ReturnDigits(int n) {
-            List<int> digits = new List<int>();
-
-            while (n > 0) {
-                digits.Add(n % 10);
-                n /= 10;
-            }
-
-            return digits;
         }
     }
 }

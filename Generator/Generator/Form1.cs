@@ -14,6 +14,7 @@ namespace Generator {
     public partial class Form1 : Form {
         SerialPort port;
         RandomizeButtonGame ButtonGameValues;
+        RandomizeMorseCodeGame MorseCodeGameValues;
 
         char[] colors = new char[] { 'r', 'g', 'b', 'y' };
 
@@ -30,8 +31,10 @@ namespace Generator {
             List<char> rows = new List<char>();  // collection of all rows for the arduino
 
             ButtonGameValues = new RandomizeButtonGame();  // create a new set of random values
+            MorseCodeGameValues = new RandomizeMorseCodeGame();
 
-            rows.AddRange(FormatData(ButtonGameValues));  // pick the ones needed for the arduino
+
+            rows.AddRange(FormatData(ButtonGameValues, MorseCodeGameValues));
 
             for (int i = 0; i < rows.Count; i++) {
                 port.Write(rows[i].ToString());
@@ -39,34 +42,50 @@ namespace Generator {
                 while (port.ReadExisting() != "1") {
                     Thread.Sleep(10);
                 }
-            }     
+            }
 
-            label1.Text = ButtonGameRows(ButtonGameValues) + rows[0] + " " + rows[1];
+            label1.Text = ButtonGameRows(ButtonGameValues, MorseCodeGameValues) + $" \n {rows[0]} {rows[1]}   {rows[2]} {rows[3]}{rows[4]}{rows[5]}";
         }
 
         private void label1_Click(object sender, EventArgs e) {
 
         }
 
-        private List<char> FormatData(RandomizeButtonGame bg) {  // format data for Arduino
+        private List<char> FormatData(RandomizeButtonGame bg, RandomizeMorseCodeGame mcg) {  // format data for Arduino
             List<char> rows = new List<char>();
+            char[] word = mcg.Word.ToArray();
 
             rows.Add(colors[bg.Index]);  // pick the chosen color
-            rows.Add((char) (bg.TimeValues[bg.Index] + '0'));  // pick the chosen digit
+            rows.Add((char)(bg.TimeValues[bg.Index] + '0'));  // pick the chosen digit
+
+            rows.Add((char)(mcg.Index + '0'));
+
+            for (int i = 0; i < word.Length; i++) {  // add MCG word as seperate rows
+                rows.Add(word[i]);
+            }
 
             return rows;
         }
 
-        private string ButtonGameRows(RandomizeButtonGame bg) {  // format button game instructions
+        private string ButtonGameRows(RandomizeButtonGame bg, RandomizeMorseCodeGame mcg) {  // format button game instructions
             StringBuilder sb = new StringBuilder();
-            string ButtonGameHeading = "Button Game \n\n";  // Beggining line
+            string ButtonGameHeading = "Button Game \n\n";
+            string MorseCodeGameHeading = "Morse Code Game \n\n";
+
             sb.Append(ButtonGameHeading);
 
-            for (int i = 0; i < colors.Length; i++) {  // creating a semi-table for all colors and their corresponing time-values
-                sb.Append(colors[i] + " -> " + bg.TimeValues[i] + '\n');
+            for (int i = 0; i < colors.Length; i++) {
+                sb.Append($"{colors[i]} -> {bg.TimeValues[i]} \n");
             }
-      
-            return sb.ToString();  
+
+            sb.Append("\n");
+            sb.Append(MorseCodeGameHeading);
+
+            for (int i = 0; i < mcg.Words.Count; i++) {
+                sb.Append($"{i} -> {mcg.Words[i]} \n");
+            }
+
+            return sb.ToString();
         }
     }
 }
