@@ -1,10 +1,10 @@
 #include "timer.h"
 
-int b_buttonPin =21;
-int b_common_cathode = 22;
-int b_red_anode = 23;
-int b_green_anode = 24;
-int b_blue_anode = 25;
+int b_buttonPin = 22;
+int b_common_cathode = 23;
+int b_red_anode = 24;
+int b_green_anode = 25;
+int b_blue_anode = 26;
 
 int b_buttonState = 1;
 
@@ -13,10 +13,10 @@ int b_wantedDigitStart;
 int b_wantedDigitEnd;
 
 void turnOnRGB(int R, int G, int B){
-  digitalWrite(b_red_anode,R);
-  digitalWrite(b_green_anode,G);
-  digitalWrite(b_blue_anode,B);
-  digitalWrite(b_common_cathode,LOW);
+  digitalWrite(b_red_anode, R);
+  digitalWrite(b_green_anode, G);
+  digitalWrite(b_blue_anode, B);
+  digitalWrite(b_common_cathode, LOW);
 }
 
 void turnOffRGB(){
@@ -76,8 +76,8 @@ void setupButtonGame(char color, char digitStart, char digitEnd){
     b_wantedDigitEnd = digitEnd;
 
     pinMode(b_buttonPin,INPUT);
-    for (int i = 21; i < 26; i++) {
-        pinMode(i,OUTPUT);
+    for (int i = 22; i < 27; i++) {
+        pinMode(i, OUTPUT);
     }
     turnOffRGB();
 }

@@ -52,35 +52,35 @@ void light_digits(int num){
 
 int tickTimer() {
     if (t_minutes == 0 && t_seconds == 0) {
-        return -1;
+    return -1;
     }
-
-    if (t_seconds > 0) {
-        t_seconds--;
-    } else {
-        if (t_minutes > 0) {
-            t_minutes--;
-        } else {
-            t_minutes = 3;
-        }
-        t_seconds = 59;
-    }
-    t_digits[2] = t_minutes;
-    t_digits[1] = t_seconds/10;
-    t_digits[0] = t_seconds%10;
-
 
     if (!oneSecondDelay.started()) {
-        onsSecondDelay.restart();
         oneSecondDelay.start();
     }
+
+    Serial.println(t_seconds);
 
     if (oneSecondDelay.elapsed()) {
         for (int i = 0; i < 3; i++) {
             write_digit(t_digits[i], t_pins);
             light_digits(i);
-            Serial.println(t_seconds);
+
         }
+        oneSecondDelay.restart();
+        if (t_seconds > 0) {
+            t_seconds--;
+        } else {
+            if (t_minutes > 0) {
+                t_minutes--;
+            } else {
+                t_minutes = 3;
+            }
+        t_seconds = 59;
+        }
+        t_digits[2] = t_minutes;
+        t_digits[1] = t_seconds/10;
+        t_digits[0] = t_seconds%10;
     }
 
     return 1;

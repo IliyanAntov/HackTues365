@@ -4,17 +4,17 @@
 
 void setup() {
    setupMorseCode();
-   setupButtonGame('R',5,5); //just for now
+   setupButtonGame('R', 5, 5); //just for now
    setupTimer();
 
    Serial.begin(9600);
 }
 
 void loop() {
-    if(tickTimer()){
+    if (tickTimer()) {
         tickMorseCode();
         tickButtonGame();
-    }else{
+    } else {
         Serial.println("nz i az");
     }
 }
