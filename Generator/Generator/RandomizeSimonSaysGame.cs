@@ -22,7 +22,7 @@ namespace Generator {
             get { return sequence; }
         }
 
-        public List<int> GenerateRandomNumbers() {
+        public List<int> GenerateRandomNumbers() {  // non-unique
             Random random = new Random();
             int num = random.Next(100000, 1000000);
 

@@ -49,6 +49,7 @@ void light_t_digits(int num){
 }
 
 int tickTimer(){
+    Serial.println("hui");
     if(t_minutes == 0 && t_seconds == 0){
         return -1;
     }

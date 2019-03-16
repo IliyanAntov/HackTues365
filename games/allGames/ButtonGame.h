@@ -50,19 +50,16 @@ int digitInTimer(int wantedDigit){
 int tickButtonGame() {
     if (!digitalRead(b_buttonPin) && b_buttonState == 1) {
         b_buttonState = -1;
-        if (digitInTimer(b_wantedDigitStart)) {
+        if (digitInTimer(b_wantedDigitStart) && b_buttonState == -1) {
             //right moment
-
-            while (b_buttonState == -1) {
-                lightRGB(b_rgbColor);
-                if (digitalRead(b_buttonPin)) {
-                    b_buttonState = 1;
-                    turnOffRGB();
-                    if (digitInTimer(b_wantedDigitEnd)) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
+            lightRGB(b_rgbColor);
+            if (digitalRead(b_buttonPin)) {
+                b_buttonState = 1;
+                turnOffRGB();
+                if (digitInTimer(b_wantedDigitEnd)) {
+                    return 1;
+                } else {
+                    return -1;
                 }
             }
         } else {
