@@ -24,5 +24,20 @@ namespace Generator {
                     return (char)(n + '0');
             }
         }
+
+        public static string CharToStr(char input) {
+            switch (input) {
+                case 'r':
+                    return "Red";
+                case 'g':
+                    return "Green";
+                case 'b':
+                    return "Blue";
+                case 'y':
+                    return "Yellow";
+                default:
+                    return "Error";
+            }
+        }
     }
 }

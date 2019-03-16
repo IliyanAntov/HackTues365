@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Ports;
 using System.Threading;
@@ -21,7 +25,7 @@ namespace Generator {
             port.Open();  // open the serial connection
 
             button1.Text = "Generate";  // Initialize the text for the button and label
-            label1.Text = "Click \"Generate\" to begin";
+            label1.Text = "";
         }
 
         private void button1_Click(object sender, EventArgs e) {  // button click event listener
@@ -31,7 +35,7 @@ namespace Generator {
 
             // <----- Create sets of values -----> //
 
-            ButtonGameValues = new RandomizeButtonGame();  
+            ButtonGameValues = new RandomizeButtonGame();
             MorseCodeGameValues = new RandomizeMorseCodeGame();
             SimonSaysGameValues = new RandomizeSimonSaysGame();
 
@@ -42,8 +46,7 @@ namespace Generator {
             // <----- Send data ------> //
 
             for (int i = 0; i < rows.Count; i++) {
-                string currentRow = hc[i].ToString();
-                port.Write(currentRow);
+                port.Write(hc[i].ToString());
 
                 while (port.ReadExisting() != "1") {
                     Thread.Sleep(10);
@@ -65,16 +68,12 @@ namespace Generator {
 
             // <----- Button Game -----> //
 
-            char color = colors[bg.Index];
-            char digit = Converter.DecToHex(bg.TimeValues[bg.Index]);
-
-            rows.Add(color);  // pick the chosen color
-            rows.Add(digit);  // pick the chosen digit
+            rows.Add(colors[bg.Index]);  // pick the chosen color
+            rows.Add((char)(bg.TimeValues[bg.Index] + '0'));  // pick the chosen digit
 
             // <------ Morse Code -----> //
 
-            char index = Converter.DecToHex(mcg.Indexes[mcg.IntIndex]);
-            rows.Add(index);  // add MCG index of the word
+            rows.Add(Converter.DecToHex(mcg.Indexes[mcg.IntIndex]));  // add MCG index of the word
 
             for (int i = 0; i < word.Length; i++) {  // add MCG word as seperate rows
                 rows.Add(word[i]);
@@ -82,14 +81,12 @@ namespace Generator {
 
             // <------ Simon Says -----> //
 
-            for (int i = 0; i < ssg.Nums.Count; i++) {
-                char currentNum = Converter.DecToHex(ssg.Nums[i]);
-                rows.Add(currentNum);
+            for (int i = 0; i < ssg.Nums.Count; i++) {  // add
+                rows.Add((char) (ssg.Nums[i] + '0'));
             }
 
             for (int i = 0; i < ssg.Sequence.Count; i++) {
-                char currentElement = Converter.DecToHex(ssg.Sequence[i]);
-                rows.Add(currentElement);
+                rows.Add((char) (ssg.Sequence[i] + '0'));
             }
 
             return rows;
@@ -106,10 +103,7 @@ namespace Generator {
             sb.Append(ButtonGameHeading);
 
             for (int i = 0; i < colors.Length; i++) {
-                string currentColor = Converter.CharToStr(colors[i]);
-                int currentTimeValue = bg.TimeValues[i];
-
-                sb.Append($"{currentColor} Color -> {currentTimeValue} \n");
+                sb.Append($"{colors[i]} -> {bg.TimeValues[i]} \n");
             }
 
             // <----- Morse Code -----> //
@@ -118,10 +112,7 @@ namespace Generator {
             sb.Append(MorseCodeGameHeading);
 
             for (int i = 0; i < mcg.Words.Count; i++) {
-                string word = mcg.Words[i].ToUpper();
-                int index = mcg.Indexes[i];
-
-                sb.Append($"{word} -> {index} \n");
+                sb.Append($"{mcg.Indexes[i]} -> {mcg.Words[i]} \n");
             }
 
             // <------ Simon Says -----> //
@@ -130,10 +121,7 @@ namespace Generator {
             sb.Append(SimonSaysGameHeading);
 
             for (int i = 0; i < ssg.Nums.Count; i++) {
-                string currentLED = Converter.CharToStr(colors[i]);
-                string currentButton = Converter.CharToStr(colors[ssg.Nums[i]]);
-
-                sb.Append($"{currentLED} LED -> {currentButton} Button\n");
+                sb.Append($"{colors[i]} -> {ssg.Nums[i]}\n");
             }
 
             sb.Append(String.Join(",", ssg.Sequence));
@@ -150,7 +138,7 @@ namespace Generator {
 // Button Game
 // row1 -> RGB Color
 // row2 -> Wanted Digit
-// 
+//
 // Morse Code Game
 //
 // row3 -> Word index
