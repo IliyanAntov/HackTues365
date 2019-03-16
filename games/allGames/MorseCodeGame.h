@@ -1,14 +1,6 @@
-//dot - 0
-//dash - 1
-
-//hardcode incoming
-// | | |
-// v v v
-
 #include "Delay.h"
-#include "Game.h"
 
-char morse_code_mapping[26][5] = {
+char m_mapping[26][5] = {
   "01", //A -> .-
   "1000", //B -> -...
   "1010", //C -> -.-.
@@ -37,21 +29,21 @@ char morse_code_mapping[26][5] = {
   "1100" //Z -> --..
 };
 
-//WE HAVE TO CHANGE THE PIN NUMBERS TO BE MORE SEQUENCIAL ONCE WE PUT EVERYTHING ON ONE ARDUINO !!!
+//WE HAVE TO CHANGE THE PIN m_numbers TO BE MORE SEQUENCIAL ONCE WE PUT EVERYTHING ON ONE ARDUINO !!!
 
-int input_word[3] = {4, 7, 8};
-int num_to_display = 5;
+int m_input_words[3] = {4, 7, 8};
+int m_num_to_display = 5;
 
-int potentiometer = 14;
-int led = 7;
+int m_potentiometer = 14;
+int m_led = 7;
 int buttonPin = 15;
 
-int dot_delay = 300;
-int dash_delay = 700;
-int pause_btw_letters = 1500;
-int pause_btw_reset = 3000;
+int m_dot_delay = 300;
+int m_dash_delay = 700;
+int m_pause_btw_letters = 1500;
+int m_pause_btw_reset = 3000;
 
-char Numbers[16][8] = {
+char m_numbers[16][8] = {
               "abcdef",
               "bc",
               "abged",
@@ -70,95 +62,97 @@ char Numbers[16][8] = {
               "afge"
           };
 
-int OA1 = 0;
-int aPin = A2;
-int bPin = 2;
-int cPin = 4;
-int dPin = 5;
-int ePin = 6;
-int fPin = 8;
-int gPin = 9;
+int m_OA1 = 0;
+int m_aPin = A2;
+int m_bPin = 2;
+int m_cPin = 4;
+int m_dPin = 5;
+int m_ePin = 6;
+int m_fPin = 8;
+int m_gPin = 9;
 
 
-int currentLetter = 0;
-int currentChar = 0;
-Delay lightOnDelay;
-Delay lightOffDelay;
+int m_currentLetter = 0;
+int m_currentChar = 0;
+Delay m_lightOnDelay;
+Delay m_lightOffDelay;
 
 void show_morse() {
-    if (lightOnDelay.started()) {
-        if (!lightOnDelay.elapsed()) {
+    if (m_lightOnDelay.started()) {
+        if (!m_lightOnDelay.elapsed()) {
             return;
         }
         //has elapsed
-        lightOnDelay.restart();
-        digitalWrite(led, LOW);
+        m_lightOnDelay.restart();
+        digitalWrite(m_led, LOW);
         int pause_time = 200;
-        if (currentChar == 0) {
-            pause_time = pause_btw_letters;
+        if (m_currentChar == 0) {
+            pause_time = m_pause_btw_letters;
         }
-        if (currentLetter == 3) {
-            pause_time = pause_btw_reset;
-            currentLetter = 0;
+        if (m_currentLetter == 3) {
+            pause_time = m_pause_btw_reset;
+            m_currentLetter = 0;
         }
-        lightOffDelay.set_milliseconds(pause_time);
-        lightOffDelay.start();
+        m_lightOffDelay.set_milliseconds(pause_time);
+        m_lightOffDelay.start();
     }
 
-    if (lightOffDelay.started()) {
-        if (!lightOffDelay.elapsed()) {
+    if (m_lightOffDelay.started()) {
+        if (!m_lightOffDelay.elapsed()) {
             return;
         }
         //has elapsed
-        lightOffDelay.restart();
+        m_lightOffDelay.restart();
     }
 
-    char* current = morse_code_mapping[input_word[currentLetter]];
+    char* current = m_mapping[input_word[m_currentLetter]];
 
-    digitalWrite(led, HIGH);
-    if (current[currentChar] == '0') {
-        lightOnDelay.set_milliseconds(dot_delay);
+    digitalWrite(m_led, HIGH);
+    if (current[m_currentChar] == '0') {
+        m_lightOnDelay.set_milliseconds(m_dot_delay);
     } else {
-        lightOnDelay.set_milliseconds(dash_delay);
+        m_lightOnDelay.set_milliseconds(m_dash_delay);
     }
-    lightOnDelay.start();
-    if (++currentChar == strlen(current)) {
-        currentChar = 0;
-        currentLetter++;
+    m_lightOnDelay.start();
+    if (++m_currentChar == strlen(current)) {
+        m_currentChar = 0;
+        m_currentLetter++;
     }
 }
+
+
 
 void write_digit(char num[8]) {
     for(int j = 0; j < strlen(num); j++){
           char letter = num[j];
         switch(letter){
           case 'a':
-              digitalWrite(aPin, LOW);
+              digitalWrite(m_aPin, LOW);
               break;
           case 'b':
-              digitalWrite(bPin, LOW);
+              digitalWrite(m_bPin, LOW);
               break;
           case 'c':
-              digitalWrite(cPin, LOW);
+              digitalWrite(m_cPin, LOW);
               break;
           case 'd':
-              digitalWrite(dPin, LOW);
+              digitalWrite(m_dPin, LOW);
               break;
           case 'e':
-              digitalWrite(ePin, LOW);
+              digitalWrite(m_ePin, LOW);
               break;
           case 'f':
-              digitalWrite(fPin, LOW);
+              digitalWrite(m_fPin, LOW);
               break;
           case 'g':
-              digitalWrite(gPin, LOW);
+              digitalWrite(m_gPin, LOW);
               break;
         }
     }
 }
 
 void light_digit() {
-    digitalWrite(OA1, HIGH);
+    digitalWrite(m_OA1, HIGH);
     delay(3);
     for(int i = 2; i < 10; i++){
       if(i != 3 && i != 7){
@@ -169,14 +163,14 @@ void light_digit() {
 }
 
 int read_input() {
-    int t = analogRead(potentiometer);
+    int t = analogRead(m_potentiometer);
     t = map(t, 0, 1020, 0, 15);
 
-    write_digit(Numbers[t]);
+    write_digit(m_numbers[t]);
     light_digit();
 
     if (!digitalRead(buttonPin)) {
-        if (t == num_to_display) {
+        if (t == m_num_to_display) {
             return 1;
         } else {
             return -1;
@@ -186,25 +180,25 @@ int read_input() {
 }
 
 void setupMorseCode() {
-    pinMode(potentiometer, INPUT);
+    pinMode(m_potentiometer, INPUT);
     pinMode(buttonPin, INPUT);
-    pinMode(aPin, OUTPUT);
-    pinMode(bPin, OUTPUT);
-    digitalWrite(aPin, HIGH);
-    digitalWrite(bPin, HIGH);
+    pinMode(m_aPin, OUTPUT);
+    pinMode(m_bPin, OUTPUT);
+    digitalWrite(m_aPin, HIGH);
+    digitalWrite(m_bPin, HIGH);
 
     for (int i = 4; i < 10; i++) {
         pinMode(i, OUTPUT);
         digitalWrite(i, HIGH);
     }
 
-    pinMode(OA1, OUTPUT);
-    digitalWrite(OA1, LOW);
-    digitalWrite(led, LOW);
+    pinMode(m_OA1, OUTPUT);
+    digitalWrite(m_OA1, LOW);
+    digitalWrite(m_led, LOW);
 
 }
-
-int tickMorseCode() {
+int tick() {
     show_morse();
+    //update_digit()
     return read_input();
 }
