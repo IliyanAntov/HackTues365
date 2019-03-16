@@ -22,7 +22,7 @@ void setupReading() {
     delay(500);
 }
 
-void loadInputs() {
+bool loadInputs() {
     char receiveVal;
 
     if (Serial.available() > 0) {
