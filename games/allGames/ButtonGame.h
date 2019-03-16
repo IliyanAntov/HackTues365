@@ -45,28 +45,24 @@ void lightRGB(char color) {
 }
 
 int digitInTimer(int wantedDigit){
-    return(getTimer()[1]%10 == wantedDigit || getTimer()[1]/10 == wantedDigit || getTimer()[0] == wantedDigit);
+    return(getTime()[1]%10 == wantedDigit || getTime()[1]/10 == wantedDigit || getTime()[0] == wantedDigit);
 }
 
 int tickButtonGame() {
-    Serial.println()
-    if (!digitalRead(b_buttonPin) && b_buttonState == 1) {
+    if (!digitalRead(b_buttonPin)) {
         b_buttonState = -1;
         if (digitInTimer(b_wantedDigitStart)) {
             //right moment
-            lightRGB(b_rgbColor);
-            if (digitalRead(b_buttonPin)) {
-                b_buttonState = 1;
-                turnOffRGB();
-                if (digitInTimer(b_wantedDigitEnd)) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            }
-        } else {
-            turnOffRGB();
-            return -1;
+            lightRGB(b_rgbColor); 
+        }
+    }else {
+        turnOffRGB();
+        if(b_buttonState == -1){
+          b_buttonState = 1;
+          if(digitInTimer(b_wantedDigitEnd)){
+            return 1;
+          }
+          return -1;   
         }
     }
     return 0;
@@ -78,7 +74,7 @@ void setupButtonGame(char color, char digitStart, char digitEnd){
     b_wantedDigitEnd = digitEnd;
 
     pinMode(b_buttonPin,INPUT);
-    for (int i = 22; i < 27; i++) {
+    for (int i = 23; i < 27; i++) {
         pinMode(i, OUTPUT);
     }
     turnOffRGB();

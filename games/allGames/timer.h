@@ -71,7 +71,7 @@ int tickTimer() {
 
 
     if (!oneSecondDelay.started()) {
-        onsSecondDelay.restart();
+        oneSecondDelay.restart();
         oneSecondDelay.start();
     }
 
