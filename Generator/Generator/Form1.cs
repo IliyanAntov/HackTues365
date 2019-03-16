@@ -66,7 +66,7 @@ namespace Generator {
         private string ButtonGameRows(RandomizeButtonGame bg) {         // format button game instructions
             StringBuilder ButtonGamesb = new StringBuilder();           
             string ButtonGameHeading = "Button Game \n\n";              
-            string ButtonGameHead = "[{LED} -> {Release on digit}]\n";
+            string ButtonGameHead = "{LED} -> {Release on digit}\n";
 
             ButtonGamesb.Append(ButtonGameHeading);
             ButtonGamesb.Append(ButtonGameHead);
@@ -84,7 +84,7 @@ namespace Generator {
         private string MorseCodeGameRows(RandomizeMorseCodeGame mcg) {
             StringBuilder MorseCodeGamesb = new StringBuilder();
             string MorseCodeGameHeading = "Morse Code Game \n\n";
-            string MorseCodeGameHead = "[{Word} -> {Character to enter}]\n";
+            string MorseCodeGameHead = "{Word} -> {Character to enter}\n";
 
             MorseCodeGamesb.Append("\n");
             MorseCodeGamesb.Append(MorseCodeGameHeading);
@@ -103,7 +103,7 @@ namespace Generator {
         private string SimonSaysGameRows(RandomizeSimonSaysGame ssg) {
             StringBuilder SimonSaysGamesb = new StringBuilder();
             string SimonSaysGameHeading = "Simon Says Game \n\n";
-            string SimonSaysGameHead = "[{Blinking LED} -> {Button to press}]\n";
+            string SimonSaysGameHead = "{Blinking LED} -> {Button to press}\n";
 
             SimonSaysGamesb.Append(SimonSaysGameHeading);
             SimonSaysGamesb.Append(SimonSaysGameHead);
