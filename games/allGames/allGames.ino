@@ -1,7 +1,12 @@
 #include "Game.h"
 #include "MorseCodeGame.h"
+#include "ButtonGame.h"
 
+<<<<<<< HEAD
 Game* games;
+=======
+Game *game;
+>>>>>>> 2072a5df47161840f4e5d7fd309b1a3e18922498
 
 void setup() {
     games[0] = new MorseCodeGame();
