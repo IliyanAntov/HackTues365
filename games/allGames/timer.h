@@ -12,9 +12,11 @@ int t_OA3 = 11;
 int t_seconds = 60;
 int t_minutes = 3;
 int t_digits[3];
-unsigned long t_time = millis();
 
-void setupTimer(){
+Delay oneSecondDelay;
+
+void setupTimer() {
+    oneSecondDelay.set_milliseconds(1000);
     for (int i = 2; i < 9; i++) {
         pinMode(i, OUTPUT);
         digitalWrite(i, HIGH);
@@ -29,7 +31,7 @@ void setupTimer(){
 }
 
 
-void light_t_digits(int num){
+void light_digits(int num){
      digitalWrite(t_OA3, LOW);
      digitalWrite(t_OA2, LOW);
      digitalWrite(t_OA1, LOW);
@@ -48,13 +50,12 @@ void light_t_digits(int num){
      }
 }
 
-int tickTimer(){
-    Serial.println("hui");
-    if(t_minutes == 0 && t_seconds == 0){
+int tickTimer() {
+    if (t_minutes == 0 && t_seconds == 0) {
         return -1;
     }
 
-    if(t_seconds > 0){
+    if (t_seconds > 0) {
         t_seconds--;
     } else {
         if (t_minutes > 0) {
@@ -64,18 +65,23 @@ int tickTimer(){
         }
         t_seconds = 59;
     }
-    t_time = millis();
     t_digits[2] = t_minutes;
     t_digits[1] = t_seconds/10;
     t_digits[0] = t_seconds%10;
 
-    // while (millis() - t_time < 1000) {
-    //     for (int i = 0; i < 3; i++) {
-    //
-    //         write_digit(t_digits[i], t_pins);
-    //         light_t_digits(i);
-    //     }
-    // }
+
+    if (!oneSecondDelay.started()) {
+        onsSecondDelay.restart();
+        oneSecondDelay.start();
+    }
+
+    if (oneSecondDelay.elapsed()) {
+        for (int i = 0; i < 3; i++) {
+            write_digit(t_digits[i], t_pins);
+            light_digits(i);
+            Serial.println(t_seconds);
+        }
+    }
 
     return 1;
 }
