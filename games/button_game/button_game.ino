@@ -11,46 +11,46 @@ int fakeTimer = 3;
 int buttonState = 1;
 
 void setup() {
-  randomSeed(analogRead(0));
-  pinMode(buttonPin,INPUT);
-  for(int i = 10;i<14;i++){
+    randomSeed(analogRead(0));
+    pinMode(buttonPin,INPUT);
+    for (int i = 10;i<14;i++) {
     pinMode(i,OUTPUT);
-  }
-  turnOffRGB();
-  Serial.begin(9600);
+    }
+    turnOffRGB();
+    Serial.begin(9600);
 }
 
 void loop() {
-  buttonGame();
+    buttonGame();
 }
 
-void buttonGame(){
-  if(!digitalRead(buttonPin) && buttonState == 1){
-    buttonState = -1;
-    if(fakeTimer == timeToPress){
-      //right moment
-      int index = random(4);
-      char color = colors[index];
-      while(buttonState == -1){
-        lightRGB(color);
-        //Serial.println(color);
-        if(digitalRead(buttonPin)){
-          buttonState = 1;
-          turnOffRGB();
-          if(fakeTimer == timeToPress){
-            Serial.println("Game success");
-          }else{
-            Serial.println("Strike 2");
-          }
+void buttonGame() {
+    if (!digitalRead(buttonPin) && buttonState == 1) {
+        buttonState = -1;
+        if (fakeTimer == timeToPress) {
+            //right moment
+            int index = random(4);
+            char color = colors[index];
+            while (buttonState == -1) {
+                lightRGB(color);
+                //Serial.println(color);
+                if (digitalRead(buttonPin)) {
+                    buttonState = 1;
+                    turnOffRGB();
+                    if (fakeTimer == timeToPress) {
+                        Serial.println("Game success");
+                    } else {
+                        Serial.println("Strike 2");
+                    }
+                }
+            }
+        } else {
+            turnOffRGB();
         }
-      }
-    }else{
-      turnOffRGB();
     }
-  }
 }
 
-void lightRGB(char color){
+void lightRGB(char color) {
   switch(color){
     case 'R':
       turnOnRGB(1,0,0);

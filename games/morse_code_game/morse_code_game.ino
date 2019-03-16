@@ -1,38 +1,11 @@
 //dot - 0
 //dash - 1
 
-
-class Delay {
-    int milliseconds_;
-    unsigned long start_time_;
-    bool started_ = false;
-public:
-
-    void set_milliseconds(int milliseconds) {
-        milliseconds_ = milliseconds;
-    }
-
-    void start() {
-        start_time_ = millis();
-        started_ = true;
-    }
-
-    void restart() {
-        started_ = false;
-    }
-
-    bool elapsed() {
-        return millis() - start_time_ >= milliseconds_;
-    }
-
-    bool started() {
-        return started_;
-    }
-};
-
 //hardcode incoming
 // | | |
 // v v v
+
+#include "Delay.h"
 
 char morse_code_mapping[][5] = {
   "01", //A -> .-
@@ -180,21 +153,19 @@ void show_morse() {
 }
 
 void read_input(){
-  int t = analogRead(potentiometer);
-  t = map(t,0,1020,0,15);
+    int t = analogRead(potentiometer);
+    t = map(t, 0, 1020, 0, 15);
 
-  write_digit(Numbers[t]);
-  light_digit();
+    write_digit(Numbers[t]);
+    light_digit();
 
-  if(!digitalRead(buttonPin)){
-    if(t == num_to_display){
-        //Success
-        Serial.println("brao ludko");
-    }else{
-      //You failed
-      Serial.println("failure");
+    if (!digitalRead(buttonPin)) {
+        if (t == num_to_display) {
+            Serial.println("brao ludko");
+        } else {
+            Serial.println("failure");
+        }
     }
-  }
 }
 
 void write_digit(char num[8]) {
