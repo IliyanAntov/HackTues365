@@ -29,6 +29,8 @@ namespace Generator {
         }
 
         private void button1_Click(object sender, EventArgs e) {  // button click event listener
+            char[] values = new char[16] { 'r', '2', '3', 'f', 'o', 'x',  '0', '1', '2', '3', '2', '1', '3', '0', '1', '2'};
+            List<char> hc = new List<char>(values.ToList());
             List<char> rows = new List<char>();  // collection of all rows for the arduino
 
             // <----- Create sets of values -----> //
@@ -44,7 +46,7 @@ namespace Generator {
             // <----- Send data ------> //
 
             for (int i = 0; i < rows.Count; i++) {
-                port.Write(rows[i].ToString());
+                port.Write(hc[i].ToString());
 
                 while (port.ReadExisting() != "1") {
                     Thread.Sleep(10);
@@ -70,8 +72,8 @@ namespace Generator {
             rows.Add((char)(bg.TimeValues[bg.Index] + '0'));  // pick the chosen digit
 
             // <------ Morse Code -----> //
-
-            rows.Add(mcg.Index);
+            
+            rows.Add(Converter.DecToHex(mcg.Indexes[mcg.IntIndex]));
 
             for (int i = 0; i < word.Length; i++) {  // add MCG word as seperate rows
                 rows.Add(word[i]);
@@ -110,7 +112,7 @@ namespace Generator {
             sb.Append(MorseCodeGameHeading);
 
             for (int i = 0; i < mcg.Words.Count; i++) {
-                sb.Append($"{i} -> {mcg.Words[i]} \n");
+                sb.Append($"{mcg.Indexes[i]} -> {mcg.Words[i]} \n");
             }
 
             // <------ Simon Says -----> //
@@ -128,3 +130,11 @@ namespace Generator {
         }
     }
 }
+
+// Button Game
+// row1 -> RGB Color
+// row2 -> Wanted Digit
+// 
+// Morse Code Game
+//
+// row3 -> 

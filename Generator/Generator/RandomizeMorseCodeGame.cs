@@ -14,9 +14,12 @@ namespace Generator {
                                                "cup", "gym", "car", "fax", "axe",
                                                "dog", "pit", "red", "awe", "bed"};
 
+        private List<int> indexes = new List<int>();
+
         public RandomizeMorseCodeGame() {
             IntIndex = RandomNumber(0, Words.Count);
             Word = Words[IntIndex];
+            Indexes = CreateUniqueList(0, 16, 15);
         }
             
         public int IntIndex {
@@ -25,25 +28,13 @@ namespace Generator {
         }
 
         public char Index {
-            get {
-                switch(intIndex) {
-                    case 10:
-                        return 'a';
-                    case 11:
-                        return 'b';
-                    case 12:
-                        return 'c';
-                    case 13:
-                        return 'd';
-                    case 14:
-                        return 'e';
-                    case 15:
-                        return 'f';
-                    default:
-                        return (char)(IntIndex + '0');
-                }
-            }
+            get { return Converter.DecToHex(index); }
             private set { index = value; }
+        }
+
+        public List<int> Indexes {
+            get { return indexes; }
+            private set { indexes = value; }
         }
 
         public string Word {
