@@ -2,13 +2,13 @@
 #define TIMER_H__
 
 #include "Delay.h"
-#include "sevenSegment.h"
+#include "SevenSegment.h"
 
 int t_pins[] = {2, 3, 4, 5, 6, 7, 8};
 int t_OA[] = {9, 10, 11};
 
 int t_seconds = 60;
-int t_minutes = 9;
+int t_minutes = 11;
 int t_digits[3];
 
 Delay oneSecondDelay;

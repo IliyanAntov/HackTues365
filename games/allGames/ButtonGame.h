@@ -1,4 +1,4 @@
-#include "timer.h"
+#include "Timer.h"
 #include "Button.h"
 
 int b_buttonPin = 23;
