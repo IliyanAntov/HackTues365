@@ -26,22 +26,36 @@ namespace Generator {
         }
 
         public List<int> GenerateRandomNumbers() {
-            List<int> digits = new List<int>();
-
             Random random = new Random();
-            int num = random.Next(0, 10000);
+            int num = 11111;
 
-            for (int i = 0; i < 4; i++) {
-                digits.Add(num % 10);
-                num /= 10;
+            while (CheckRepeatingDigits(num)) {
+                num = random.Next(1000, 10000);
             }
 
-            return digits;
+            return IntToList(num);
         }
 
         public int RandomNumber(int min, int max) {
             Random random = new Random();
             return random.Next(min, max);
+        }
+
+        private bool CheckRepeatingDigits(int num) {
+            List<int> digits = IntToList(num);
+
+            return digits.GroupBy(n => n).Any(c => c.Count() > 1);
+        }
+
+        private List<int> IntToList(int n) {
+            List<int> digits = new List<int>();
+
+            while (n > 0) {
+                digits.Add(n % 10);
+                n /= 10;
+            }
+
+            return digits;
         }
     }
 }

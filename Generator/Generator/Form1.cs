@@ -61,6 +61,8 @@ namespace Generator {
 
         private string ButtonGameRows(RandomizeButtonGame bg) {
             StringBuilder sb = new StringBuilder();
+            string ButtonGameHeading = "Button Game \n\n";
+            sb.Append(ButtonGameHeading);
 
             for (int i = 0; i < 4; i++) {
                 sb.Append(colors[i] + " -> " + bg.TimeValues[i] + '\n');
