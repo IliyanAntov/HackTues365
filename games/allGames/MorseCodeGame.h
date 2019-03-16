@@ -105,7 +105,7 @@ void show_morse() {
         m_lightOffDelay.restart();
     }
 
-    char* current = m_mapping[input_word[m_currentLetter]];
+    char* current = m_mapping[m_input_words[m_currentLetter]];
 
     digitalWrite(m_led, HIGH);
     if (current[m_currentChar] == '0') {

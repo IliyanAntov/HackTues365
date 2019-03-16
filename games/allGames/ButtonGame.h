@@ -72,7 +72,7 @@ int tickButtonGame() {
 void setupButtonGame(){
     randomSeed(analogRead(0));
     pinMode(b_buttonPin,INPUT);
-    for (int i = 10;i<14;i++) {
+    for (int i = 10; i < 14; i++) {
         pinMode(i,OUTPUT);
     }
     turnOffRGB();
