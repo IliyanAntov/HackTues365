@@ -29,25 +29,18 @@ namespace Generator {
                 switch(intIndex) {
                     case 10:
                         return 'a';
-                        break;
                     case 11:
                         return 'b';
-                        break;
                     case 12:
                         return 'c';
-                        break;
                     case 13:
                         return 'd';
-                        break;
                     case 14:
                         return 'e';
-                        break;
                     case 15:
                         return 'f';
-                        break;
                     default:
                         return (char)(IntIndex + '0');
-                        break;
                 }
             }
             private set { index = value; }

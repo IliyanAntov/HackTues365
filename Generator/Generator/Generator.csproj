@@ -60,6 +60,7 @@
     <Compile Include="Randomize.cs" />
     <Compile Include="RandomizeButtonGame.cs" />
     <Compile Include="RandomizeMorseCodeGame.cs" />
+    <Compile Include="RandomizeSimonSaysGame.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

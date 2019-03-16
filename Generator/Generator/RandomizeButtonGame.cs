@@ -29,11 +29,11 @@ namespace Generator {
             Random random = new Random();
             int num = 11111;
 
-            while (CheckRepeatingDigits(num)) {
+            while (CheckRepeatingDigits(num, 10)) {
                 num = random.Next(1000, 10000);
             }
 
-            return ReturnDigits(num);
+            return ReturnDigits(num, 10);
         }
     }
 }

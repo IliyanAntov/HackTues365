@@ -15,6 +15,7 @@ namespace Generator {
         SerialPort port;
         RandomizeButtonGame ButtonGameValues;
         RandomizeMorseCodeGame MorseCodeGameValues;
+        RandomizeSimonSaysGame SimonSaysGameValues;
 
         char[] colors = new char[] { 'r', 'g', 'b', 'y' };
 
@@ -34,10 +35,11 @@ namespace Generator {
 
             ButtonGameValues = new RandomizeButtonGame();  
             MorseCodeGameValues = new RandomizeMorseCodeGame();
+            SimonSaysGameValues = new RandomizeSimonSaysGame();
 
             // <----- Copy data ------> //
 
-            rows.AddRange(FormatData(ButtonGameValues, MorseCodeGameValues));
+            rows.AddRange(FormatData(ButtonGameValues, MorseCodeGameValues, SimonSaysGameValues));
 
             // <----- Send data ------> //
 
@@ -51,14 +53,14 @@ namespace Generator {
 
             // <----- Display text -----> //
 
-            label1.Text = ButtonGameRows(ButtonGameValues, MorseCodeGameValues) + $" \n {rows[0]} {rows[1]}   {rows[2]} {rows[3]}{rows[4]}{rows[5]}";
+            label1.Text = ButtonGameRows(ButtonGameValues, MorseCodeGameValues, SimonSaysGameValues) + $" \n {rows[0]} {rows[1]}   {rows[2]} {rows[3]}{rows[4]}{rows[5]}";
         }
 
         private void label1_Click(object sender, EventArgs e) {
 
         }
 
-        private List<char> FormatData(RandomizeButtonGame bg, RandomizeMorseCodeGame mcg) {  // format data for Arduino
+        private List<char> FormatData(RandomizeButtonGame bg, RandomizeMorseCodeGame mcg, RandomizeSimonSaysGame ssg) {  // format data for Arduino
             List<char> rows = new List<char>();
             char[] word = mcg.Word.ToArray();
 
@@ -75,13 +77,24 @@ namespace Generator {
                 rows.Add(word[i]);
             }
 
+            // <------ Simon Says -----> //
+
+            for (int i = 0; i < ssg.Nums.Count; i++) {
+                rows.Add((char) (ssg.Nums[i] + '0'));
+            }
+
+            for (int i = 0; i < ssg.Sequence.Count; i++) {
+                rows.Add((char) (ssg.Sequence[i] + '0'));
+            }
+
             return rows;
         }
 
-        private string ButtonGameRows(RandomizeButtonGame bg, RandomizeMorseCodeGame mcg) {  // format button game instructions
+        private string ButtonGameRows(RandomizeButtonGame bg, RandomizeMorseCodeGame mcg, RandomizeSimonSaysGame ssg) {  // format button game instructions
             StringBuilder sb = new StringBuilder();
             string ButtonGameHeading = "Button Game \n\n";
             string MorseCodeGameHeading = "Morse Code Game \n\n";
+            string SimonSaysGameHeading = "Simon Says Game \n\n";
 
             // <----- Button Game -----> //
 
@@ -99,6 +112,17 @@ namespace Generator {
             for (int i = 0; i < mcg.Words.Count; i++) {
                 sb.Append($"{i} -> {mcg.Words[i]} \n");
             }
+
+            // <------ Simon Says -----> //
+
+            sb.Append("\n");
+            sb.Append(SimonSaysGameHeading);
+
+            for (int i = 0; i < ssg.Nums.Count; i++) {
+                sb.Append($"{colors[i]} -> {ssg.Nums[i]}\n");
+            }
+
+            sb.Append(String.Join(",", ssg.Sequence));
 
             return sb.ToString();
         }
