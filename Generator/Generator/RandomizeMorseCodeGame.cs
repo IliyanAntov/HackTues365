@@ -13,7 +13,6 @@ namespace Generator {
         private string[] words = new string[] {"joy", "zip", "jog", "fox", "max",
                                                "cup", "gym", "car", "fax", "axe",
                                                "dog", "pit", "red", "awe", "bed"};
-
         private List<int> indexes = new List<int>();
 
         public RandomizeMorseCodeGame() {
@@ -32,11 +31,6 @@ namespace Generator {
             private set { index = value; }
         }
 
-        public List<int> Indexes {
-            get { return indexes; }
-            private set { indexes = value; }
-        }
-
         public string Word {
             get { return word; }
             private set { word = value; }
@@ -44,6 +38,11 @@ namespace Generator {
 
         public List<string> Words {
             get { return words.ToList(); }
+        }
+
+        public List<int> Indexes {
+            get { return indexes; }
+            private set { indexes = value; }
         }
     }
 }
