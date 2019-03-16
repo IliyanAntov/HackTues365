@@ -1,0 +1,14 @@
+{
+  "ProjectFilePath": "c:\\Goshko\\_TUES\\HackTues365\\HackTues365\\Generator\\Generator\\Generator.csproj",
+  "TargetFramework": "v4.6.1",
+  "TagHelpers": [],
+  "Configuration": {
+    "ConfigurationName": "UnsupportedRazor",
+    "LanguageVersion": "1.0",
+    "Extensions": [
+      {
+        "ExtensionName": "UnsupportedRazorExtension"
+      }
+    ]
+  }
+}

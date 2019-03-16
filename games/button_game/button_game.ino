@@ -16,6 +16,7 @@ void setup() {
   for(int i = 10;i<14;i++){
     pinMode(i,OUTPUT);
   }
+  turnOffRGB();
   Serial.begin(9600);
 }
 
@@ -52,30 +53,25 @@ void buttonGame(){
 void lightRGB(char color){
   switch(color){
     case 'R':
-      digitalWrite(red_anode,HIGH);
-      digitalWrite(green_anode,LOW);
-      digitalWrite(blue_anode,LOW);
-      digitalWrite(common_cathode,LOW);
+      turnOnRGB(1,0,0);
       break;
     case 'G':
-      digitalWrite(red_anode,LOW);
-      digitalWrite(green_anode,HIGH);
-      digitalWrite(blue_anode,LOW);
-      digitalWrite(common_cathode,LOW);
+      turnOnRGB(0,1,0);
       break;
     case 'B':
-      digitalWrite(red_anode,LOW);
-      digitalWrite(green_anode,LOW);
-      digitalWrite(blue_anode,HIGH);
-      digitalWrite(common_cathode,LOW);
+      turnOnRGB(0,0,1);
       break;
     case 'Y':
-      digitalWrite(red_anode,HIGH);
-      digitalWrite(green_anode,HIGH);
-      digitalWrite(blue_anode,LOW);
-      digitalWrite(common_cathode,LOW);
+      turnOnRGB(1,1,0);
       break;
   }
+}
+
+void turnOnRGB(int R, int G, int B){
+  digitalWrite(red_anode,R);
+  digitalWrite(green_anode,G);
+  digitalWrite(blue_anode,B);
+  digitalWrite(common_cathode,LOW);
 }
 
 void turnOffRGB(){
