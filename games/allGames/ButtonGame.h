@@ -43,7 +43,7 @@ void lightRGB(char color) {
   }
 }
 
-int digitInTimer(int wantedDigit){ 
+int digitInTimer(int wantedDigit){
     return(getTimer()[1]%10 == wantedDigit || getTimer()[1]/10 == wantedDigit || getTimer()[0] == wantedDigit);
 }
 
@@ -84,4 +84,3 @@ void setupButtonGame(char color, char digitStart, char digitEnd){
     }
     turnOffRGB();
 }
-

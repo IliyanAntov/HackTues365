@@ -68,13 +68,13 @@ int tickTimer(){
     t_digits[1] = t_seconds/10;
     t_digits[0] = t_seconds%10;
 
-    while (millis() - t_time < 1000) {
-        for (int i = 0; i < 3; i++) {
-
-            write_digit(t_digits[i], t_pins);
-            light_t_digits(i);
-        }
-    }
+    // while (millis() - t_time < 1000) {
+    //     for (int i = 0; i < 3; i++) {
+    //
+    //         write_digit(t_digits[i], t_pins);
+    //         light_t_digits(i);
+    //     }
+    // }
 
     return 1;
 }
