@@ -5,6 +5,7 @@ class Game {
     bool done_;
 public:
     virtual int tick() = 0; //1 - win 0 - playing -1 - fail
+    virtual void setup() = 0;
 };
 
 #endif

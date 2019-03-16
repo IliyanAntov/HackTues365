@@ -191,7 +191,7 @@ int read_input() {
 
 class MorseCodeGame : public Game {
 public:
-    MorseCodeGame() {
+    void setup() {
         pinMode(potentiometer, INPUT);
         pinMode(buttonPin, INPUT);
         pinMode(aPin, OUTPUT);
