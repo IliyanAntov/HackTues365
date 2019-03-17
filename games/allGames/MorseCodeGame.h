@@ -122,7 +122,7 @@ int read_input() {
     return 0;
 }
 
-void setupMorseCode(int target, int* word) {
+void setupMorseCodeGame(int target, int* word) {
     pinMode(m_potentiometer, INPUT);
     pinMode(buttonPin, INPUT);
 
@@ -139,7 +139,7 @@ void setupMorseCode(int target, int* word) {
     m_random_words = word;
 }
 
-int tickMorseCode() {
+int tickMorseCodeGame() {
     show_morse();
     return read_input();
 }

@@ -2,11 +2,11 @@
 #define DELAY_H__
 
 class Delay {
-    int milliseconds_;
-    unsigned long start_time_;
     bool started_ = false;
+    unsigned long start_time_;
+    int milliseconds_;
 public:
-
+    
     void set_milliseconds(int milliseconds) {
         milliseconds_ = milliseconds;
     }

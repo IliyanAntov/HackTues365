@@ -57,11 +57,13 @@ int tickButtonGame() {
     if (!digitalRead(b_buttonPin)) {
         b_buttonState = -1;
         lightRGB(b_rgbColor);
+        
     } else {
         turnOffRGB();
         if (b_buttonState == -1) {
             b_buttonState = 1;
             if (digitInTimer(b_wantedDigitEnd)) {
+                Serial.print("SUCCESS");
                 return 1;
             }
             return -1;
@@ -74,7 +76,7 @@ void setupButtonGame(char color, char digitEnd) {
     b_rgbColor = color;
     b_wantedDigitEnd = digitEnd;
 
-    pinMode(b_buttonPin, INPUT);
+    pinMode(b_buttonPin, INPUT_PULLUP);
     for (int i = 23; i < 27; i++) {
         pinMode(i, OUTPUT);
     }
